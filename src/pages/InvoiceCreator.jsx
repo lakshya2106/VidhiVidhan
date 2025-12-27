@@ -3,6 +3,7 @@ import generateInvoicePDF from './generateInvoicePDF'
 import '../styles/InvoiceCreator.css'
 
 import companyLogo from '../assets/logoBase64'
+import bgimage from '../assets/bgBase64'
 
 function InvoiceCreator() {
   const [invoice, setInvoice] = useState({
@@ -10,6 +11,7 @@ function InvoiceCreator() {
     createdDate: new Date().toISOString().split('T')[0],
     dueDate: '',
     companyLogo: companyLogo,
+    bgimage:bgimage,
     sender: {
       name: 'Vidhi Vidhan',
       address1: '',
@@ -25,7 +27,7 @@ function InvoiceCreator() {
       phoneNumber: '',
       events: [],
     },
-    items: [{ description: '', price: '' }],
+    items: [{ description: '', price: '', qty: 1 }],
     taxRate: 18,
     footerText: 'Thank you for your business!',
     footerText2: 'Payment due within 30 days',
@@ -67,30 +69,35 @@ function InvoiceCreator() {
     setInvoice({ ...invoice, items: newItems })
   }
 
-  const addItem = () => {
-    setInvoice({
-      ...invoice,
-      items: [...invoice.items, { description: '', price: '' }],
-    })
-  }
+const addItem = () => {
+  setInvoice({
+    ...invoice,
+    items: [...invoice.items, { description: '', price: '', qty:'' }],
+  })
+}
+
 
   const removeItem = (index) => {
     const newItems = invoice.items.filter((_, i) => i !== index)
     setInvoice({ ...invoice, items: newItems })
   }
 
-  const calculateTotals = () => {
-    const subTotal = invoice.items.reduce((sum, item) => {
-      const price = parseFloat(item.price) || 0
-      return sum + price
-    }, 0)
-    const taxAmount = (subTotal * invoice.taxRate) / 100
-    return {
-      subTotal: subTotal.toFixed(2),
-      taxAmount: taxAmount.toFixed(2),
-      total: (subTotal + taxAmount).toFixed(2),
-    }
+const calculateTotals = () => {
+  const subTotal = invoice.items.reduce((sum, item) => {
+    const price = parseFloat(item.price) || 0
+    const qty = parseInt(item.qty) || 1
+    return sum + price * qty
+  }, 0)
+
+  const taxAmount = (subTotal * invoice.taxRate) / 100
+
+  return {
+    subTotal: subTotal.toFixed(2),
+    taxAmount: taxAmount.toFixed(2),
+    total: (subTotal + taxAmount).toFixed(2),
   }
+}
+
 
   const totals = calculateTotals()
 
@@ -190,10 +197,10 @@ function InvoiceCreator() {
               />
             </div>
             <div className="form-group">
-              <label>Account Number</label>
+              <label>Phone Number</label>
               <input
                 type="text"
-                placeholder="Account Number"
+                placeholder="Phone Number"
                 value={invoice.sender.acc}
                 onChange={(e) => handleSenderChange('acc', e.target.value)}
               />
@@ -300,36 +307,55 @@ function InvoiceCreator() {
         <section className="form-section">
           <h3>Invoice Items</h3>
           <div className="items-table">
-            <div className="table-header">
-              <div className="col-description">Description</div>
-              <div className="col-price">Amount (₹)</div>
-              <div className="col-action">Action</div>
-            </div>
+<div className="table-header">
+  <div className="col-description">Description</div>
+  <div className="col-price">Amount (₹)</div>
+  <div className="col-qty">Qty</div>
+  <div className="col-total">Total (₹)</div>
+  <div className="col-action">Action</div>
+</div>
             {invoice.items.map((item, index) => (
-              <div key={index} className="table-row">
-                <input
-                  type="text"
-                  className="col-description"
-                  placeholder="Service description"
-                  value={item.description}
-                  onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-                />
-                <input
-                  type="number"
-                  className="col-price"
-                  placeholder="0.00"
-                  step="0.01"
-                  value={item.price}
-                  onChange={(e) => handleItemChange(index, 'price', e.target.value)}
-                />
-                <button
-                  className="col-action btn-remove"
-                  onClick={() => removeItem(index)}
-                  disabled={invoice.items.length === 1}
-                >
-                  ✕
-                </button>
-              </div>
+<div key={index} className="table-row">
+  <input
+    type="text"
+    className="col-description"
+    placeholder="Service description"
+    value={item.description}
+    onChange={(e) => handleItemChange(index, 'description', e.target.value)}
+  />
+
+  <input
+    type="number"
+    className="col-price"
+    placeholder="0.00"
+    step="0.01"
+    value={item.price}
+    onChange={(e) => handleItemChange(index, 'price', e.target.value)}
+  />
+
+  <input
+    type="number"
+    className="col-qty"
+    min="1"
+    value={item.qty}
+    onChange={(e) =>
+      handleItemChange(index, 'qty', parseInt(e.target.value) || 1)
+    }
+  />
+
+  <div className="col-total">
+    ₹ {(Number(item.price || 0) * Number(item.qty || 1)).toFixed(2)}
+  </div>
+
+  <button
+    className="col-action btn-remove"
+    onClick={() => removeItem(index)}
+    disabled={invoice.items.length === 1}
+  >
+    ✕
+  </button>
+</div>
+
             ))}
           </div>
           <button onClick={addItem} className="btn btn-add-item">

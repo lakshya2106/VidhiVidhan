@@ -139,7 +139,7 @@
 
 .items-table .table-header {
   display: grid;
-  grid-template-columns: 2fr 150px 50px;
+  grid-template-columns: 2fr 110px 80px 130px 60px;
   gap: 15px;
   padding: 18px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -152,7 +152,7 @@
 
 .items-table .table-row {
   display: grid;
-  grid-template-columns: 2fr 150px 50px;
+  grid-template-columns: 2fr 110px 80px 130px 60px;
   gap: 15px;
   padding: 18px;
   border-bottom: 1px solid #e2e8f0;
@@ -196,6 +196,38 @@
 .col-action {
   text-align: center;
 }
+
+.col-price,
+.col-qty,
+.col-total {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.col-qty input,
+input.col-qty {
+  text-align: center;
+  font-weight: 600;
+  background: #f9fafb;
+}
+
+.col-total {
+  font-weight: 700;
+  color: #2d3748;
+  background: #edf2f7;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px dashed #cbd5e0;
+}
+.items-table .table-row:hover .col-total {
+  background: #e9edfb;
+}
+.items-table .table-header .col-price,
+.items-table .table-header .col-qty,
+.items-table .table-header .col-total {
+  text-align: right;
+}
+
 
 .btn-remove {
   background: #fed7d7;
