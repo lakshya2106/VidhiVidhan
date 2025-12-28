@@ -7,6 +7,8 @@ import cors from 'cors'
 import connectDB from './config/db.js'
 import seedAdmin from './utils/seedAdmin.js'
 import adminRoutes from './routes/admin.js'
+import invoiceRoutes from './routes/invoices.js'
+import eventRoutes from './routes/events.js'
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -17,6 +19,8 @@ app.use(express.json())
 
 // Routes
 app.use('/api/admin', adminRoutes)
+app.use('/api/invoices', invoiceRoutes)
+app.use('/api/events', eventRoutes)
 
 async function start() {
   const connected = await connectDB(MONGODB_URI)
