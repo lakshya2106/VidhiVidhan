@@ -1,5 +1,6 @@
 import Invoice from '../models/Invoice.js'
 import Counter from '../models/Counter.js'
+import { getNextInvoiceNumber } from '../utils/getNextInvoiceNumber.js'
 import mongoose from 'mongoose'
 
 
