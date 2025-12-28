@@ -100,10 +100,10 @@ function InvoiceList() {
           </div>
           {filteredInvoices.map((invoice) => (
             <div key={invoice._id} className="table-row">
-              <div className="col-number">{invoice.invoiceNumber}</div>
-              <div className="col-client">{invoice.receiver.name}</div>
-              <div className="col-amount">₹{invoice.total?.toFixed(2) || '0.00'}</div>
-              <div className="col-status">
+              <div className="col-number" data-label="Invoice #">{invoice.invoiceNumber}</div>
+              <div className="col-client" data-label="Client">{invoice.receiver.name}</div>
+              <div className="col-amount" data-label="Amount">₹{invoice.total?.toFixed(2) || '0.00'}</div>
+              <div className="col-status" data-label="Status">
                 <select 
                   value={invoice.status}
                   onChange={(e) => handleStatusChange(invoice._id, e.target.value)}
@@ -115,8 +115,8 @@ function InvoiceList() {
                   <option value="overdue">Overdue</option>
                 </select>
               </div>
-              <div className="col-date">{new Date(invoice.createdDate).toLocaleDateString()}</div>
-              <div className="col-actions">
+              <div className="col-date" data-label="Date">{new Date(invoice.createdDate).toLocaleDateString()}</div>
+              <div className="col-actions" data-label="Actions">
                 <Link to={`/invoice-creator?id=${invoice._id}`} className="btn-action btn-edit">
                   Edit
                 </Link>

@@ -10,6 +10,7 @@ function Sidebar() {
 
   const [showConfirm, setShowConfirm] = useState(false)
   const [showToast, setShowToast] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   function handleLogout() {
     // open confirmation modal
@@ -19,6 +20,7 @@ function Sidebar() {
   function confirmLogout() {
     setShowConfirm(false)
     setToken(null)
+    setMobileOpen(false)
     navigate('/login')
     // show toast briefly
     setShowToast(true)
@@ -29,8 +31,12 @@ function Sidebar() {
     setShowConfirm(false)
   }
 
+  function toggleMobile() {
+    setMobileOpen((s) => !s)
+  }
+
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${mobileOpen ? 'mobile-open' : ''}`}>
       <div className="sidebar-header">
         <h1>Vidhi Vidhan</h1>
         <p className="subtitle">Event Management</p>
@@ -76,6 +82,14 @@ function Sidebar() {
 
       {showToast && createPortal(
         <div className="logout-toast">Logged out</div>,
+        document.body
+      )}
+
+      {createPortal(
+        <>
+          <button className="mobile-hamburger" onClick={toggleMobile} aria-label="Open menu">☰</button>
+          {mobileOpen && <div className="mobile-backdrop" onClick={() => setMobileOpen(false)} />}
+        </>,
         document.body
       )}
     </aside>

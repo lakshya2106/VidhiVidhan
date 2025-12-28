@@ -3,5 +3,23 @@
 .login-form h2{margin:0 0 12px 0;color:var(--text)}
 .login-form label{display:block;margin-bottom:8px;color:var(--muted);font-weight:700}
 .login-form input{width:100%;padding:10px 12px;margin-top:6px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
-.login-form button{width:100%;padding:10px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#5a3bfe);color:white;border:none;font-weight:700}
+.login-form button{width:100%;padding:10px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#5a3bfe);color:white;border:none;font-weight:700;min-height:44px;cursor:pointer;transition:transform .2s ease}
+.login-form button:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,92,255,0.3)}
 .error{color:#ff7b7b;margin-bottom:8px}
+
+@media (max-width: 900px) {
+  .login-form{width:320px;padding:24px}
+  .login-form h2{font-size:20px}
+  .login-form input{padding:10px;font-size:14px}
+  .login-form button{min-height:44px;font-size:14px}
+}
+
+@media (max-width: 640px) {
+  .login-page{padding:20px}
+  .login-form{width:100%;max-width:100%;padding:20px}
+  .login-form h2{font-size:18px;margin-bottom:16px}
+  .login-form label{font-size:13px}
+  .login-form input{padding:12px;font-size:16px;min-height:44px}
+  .login-form button{padding:14px;min-height:48px;font-size:15px}
+  .error{font-size:13px;margin-bottom:10px}
+}

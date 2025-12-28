@@ -353,42 +353,31 @@ input.col-qty {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .invoice-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    gap: 12px;
   }
+  .invoice-header h1{font-size:20px}
+  .invoice-container{padding:16px}
+  .form-row{grid-template-columns:1fr;gap:12px}
+  .items-table .table-header,.items-table .table-row{grid-template-columns:1fr}
+  .totals-grid{grid-template-columns:1fr;text-align:left}
+  .form-actions{flex-direction:column}
+  .btn{width:100%;justify-content:center;min-height:44px}
+  .form-section h3{font-size:13px}
+}
 
-  .invoice-container {
-    padding: 20px;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .items-table .table-header,
-  .items-table .table-row {
-    grid-template-columns: 1fr;
-  }
-
-  .totals-grid {
-    grid-template-columns: 1fr;
-    text-align: left;
-  }
-
-  .total-item.total-final {
-    border: 2px solid #667eea;
-  }
-
-  .form-actions {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
-    justify-content: center;
-  }
+@media (max-width: 640px) {
+  .invoice-container{padding:12px}
+  .form-group label{font-size:12px}
+  .form-group input{padding:10px 12px;font-size:14px}
+  .items-table{margin-bottom:12px}
+  .items-table .table-header,.items-table .table-row{padding:10px}
+  .items-table input{padding:8px 10px;font-size:13px}
+  .btn-add-item{padding:10px 14px;font-size:13px;min-height:44px}
+  .btn-remove{padding:10px;min-height:40px}
+  .form-actions{gap:10px;margin-top:16px}
+  .btn{padding:12px;font-size:13px}
 }

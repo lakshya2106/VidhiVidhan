@@ -52,13 +52,23 @@
 .status.in-progress{background:linear-gradient(90deg,rgba(255,200,120,0.12),rgba(255,160,80,0.04));color:var(--text)}
 .status.completed{background:linear-gradient(90deg,rgba(0,200,130,0.12),rgba(0,160,120,0.04));color:var(--text)}
 
-@media (max-width: 768px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+@media (max-width: 900px) {
+  .dashboard-header h1{font-size:20px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .stat-card{padding:14px;gap:12px}
+  .stat-icon{font-size:24px}
+  .stat-value{font-size:18px}
+  .table-header,.table-row{grid-template-columns:1fr}
+}
 
-  .table-header,
-  .table-row {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 640px) {
+  .dashboard-header h1{font-size:18px}
+  .stats-grid{grid-template-columns:1fr;gap:10px}
+  .stat-card{padding:12px;gap:10px}
+  .stat-info h3{font-size:12px}
+  .stat-value{font-size:16px}
+  .recent-section{padding:12px}
+  .recent-section h2{font-size:14px;margin-bottom:10px}
+  .table-header{display:none}
+  .table-row{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02);margin-bottom:8px}
 }
