@@ -72,10 +72,11 @@
 }
 
 .event-form-container {
-  background: white;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  box-shadow: var(--shadow);
+ border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
   padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 30px;
 }
 
@@ -101,28 +102,23 @@
 .event-form textarea,
 .event-form select {
   padding: 12px 14px;
-  border: 2px solid #e2e8f0;
+   border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text);
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
   transition: all 0.3s ease;
-  background: #f9fafb;
+  background: transparent;
+
 }
 
-.event-form input:hover,
-.event-form textarea:hover,
-.event-form select:hover {
-  border-color: #cbd5e0;
-  background: white;
-}
 
 .event-form input:focus,
 .event-form textarea:focus,
 .event-form select:focus {
   outline: none;
-  border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 6px 20px rgba(92, 63, 255, 0.08);
+  border-color: var(--accent)
 }
 
 .form-actions {
@@ -155,12 +151,15 @@
 }
 
 .event-card {
-  background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+   background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  box-shadow: var(--shadow);
+   border: 1px solid rgba(255, 255, 255, 0.04);
   overflow: hidden;
   transition: all 0.3s ease;
   border: 1px solid #e2e8f0;
+  
+
 }
 
 .event-card:hover {
@@ -226,7 +225,7 @@
 }
 
 .event-details strong {
-  color: #2d3748;
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -235,7 +234,7 @@
   gap: 8px;
   padding: 12px 15px;
   border-top: 1px solid #e2e8f0;
-  background: #f9fafb;
+
 }
 
 .btn-action {

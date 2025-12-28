@@ -1,15 +1,32 @@
 import { Link, useNavigate } from 'react-router-dom'
 import './Sidebar.css'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { AuthContext } from '../auth/AuthContext'
 
 function Sidebar() {
   const navigate = useNavigate()
   const { setToken } = useContext(AuthContext)
 
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+
   function handleLogout() {
+    // open confirmation modal
+    setShowConfirm(true)
+  }
+
+  function confirmLogout() {
+    setShowConfirm(false)
     setToken(null)
     navigate('/login')
+    // show toast briefly
+    setShowToast(true)
+    setTimeout(() => setShowToast(false), 3000)
+  }
+
+  function cancelLogout() {
+    setShowConfirm(false)
   }
 
   return (
@@ -37,10 +54,30 @@ function Sidebar() {
         </Link>
       </nav>
       <div className="sidebar-footer">
-        <button className="logout-button" onClick={handleLogout}>
-          Logout
+        <button className="logout-button" onClick={handleLogout} aria-label="Logout">
+          <span className="icon">🔒</span>
+          <span>Logout</span>
         </button>
       </div>
+
+      {showConfirm && createPortal(
+        <div className="confirm-overlay">
+          <div className="confirm-modal">
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to log out?</p>
+            <div className="confirm-actions">
+              <button className="btn btn-primary" onClick={confirmLogout}>Yes, log out</button>
+              <button className="btn btn-reset" onClick={cancelLogout}>Cancel</button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {showToast && createPortal(
+        <div className="logout-toast">Logged out</div>,
+        document.body
+      )}
     </aside>
   )
 }

@@ -1,6 +1,4 @@
-.dashboard {
-  animation: fadeIn 0.3s ease-in;
-}
+.dashboard{animation:fadeIn .32s ease-in}
 
 @keyframes fadeIn {
   from {
@@ -13,20 +11,9 @@
   }
 }
 
-.dashboard-header {
-  margin-bottom: 30px;
-}
-
-.dashboard-header h1 {
-  font-size: 32px;
-  color: #1a202c;
-  margin-bottom: 8px;
-}
-
-.dashboard-header p {
-  color: #718096;
-  font-size: 16px;
-}
+.dashboard-header{margin-bottom:18px}
+.dashboard-header h1{font-size:22px;margin-bottom:6px;color:var(--text)}
+.dashboard-header p{color:var(--muted);font-size:14px}
 
 .stats-grid {
   display: grid;
@@ -35,114 +22,35 @@
   margin-bottom: 40px;
 }
 
-.stat-card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  display: flex;
-  gap: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-}
+.stat-card{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.005));padding:18px;border-radius:12px;box-shadow:var(--shadow);display:flex;gap:14px;transition:transform .18s ease}
+.stat-card:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(2,6,23,0.6)}
 
-.stat-icon {
-  font-size: 32px;
-  min-width: 50px;
-  text-align: center;
-}
+.stat-icon{font-size:28px;min-width:48px;text-align:center}
+.stat-info h3{font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:700}
+.stat-value{font-size:20px;font-weight:800;color:var(--accent)}
 
-.stat-info h3 {
-  font-size: 14px;
-  color: #718096;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: #667eea;
-}
-
-.recent-section {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.recent-section h2 {
-  font-size: 20px;
-  color: #1a202c;
-  margin-bottom: 20px;
-}
+.recent-section{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.005));padding:18px;border-radius:12px;box-shadow:var(--shadow)}
+.recent-section h2{font-size:16px;color:var(--text);margin-bottom:14px}
 
 .events-table {
   overflow-x: auto;
 }
 
-.table-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1.5fr 1fr;
-  gap: 15px;
-  padding: 12px 0;
-  border-bottom: 2px solid #e2e8f0;
-  font-weight: 600;
-  color: #4a5568;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
 
-.table-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1.5fr 1fr;
-  gap: 15px;
-  padding: 15px 0;
-  border-bottom: 1px solid #e2e8f0;
-  align-items: center;
-  font-size: 14px;
-  color: #2d3748;
-  transition: background 0.2s ease;
-}
+.table-header{display:grid;grid-template-columns:2fr 1fr 1.5fr 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-weight:700;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:0.6px}
 
-.table-row:hover {
-  background: #f7fafc;
-}
+.table-row{display:grid;grid-template-columns:2fr 1fr 1.5fr 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.02);align-items:center;transition:transform .12s ease}
+.table-row:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 
 .table-row:last-child {
   border-bottom: none;
 }
 
-.status {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status.upcoming {
-  background: #bee3f8;
-  color: #2c5aa0;
-}
-
-.status.in-progress {
-  background: #feebc8;
-  color: #7c2d12;
-}
-
-.status.completed {
-  background: #c6f6d5;
-  color: #22543d;
-}
+.status{display:inline-block;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px}
+.status.upcoming{background:linear-gradient(90deg,rgba(124,92,255,0.12),rgba(0,194,168,0.04));color:var(--text)}
+.status.in-progress{background:linear-gradient(90deg,rgba(255,200,120,0.12),rgba(255,160,80,0.04));color:var(--text)}
+.status.completed{background:linear-gradient(90deg,rgba(0,200,130,0.12),rgba(0,160,120,0.04));color:var(--text)}
 
 @media (max-width: 768px) {
   .stats-grid {

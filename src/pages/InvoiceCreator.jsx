@@ -5,10 +5,16 @@ import '../styles/InvoiceCreator.css'
 
 import companyLogo from '../assets/logoBase64'
 import bgimage from '../assets/bgBase64'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 function InvoiceCreator() {
 
   const { token } = useContext(AuthContext)
+
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const [editingId, setEditingId] = useState(null)
 
   const [invoice, setInvoice] = useState({
     invoiceNumber: '',
@@ -40,6 +46,9 @@ function InvoiceCreator() {
 useEffect(() => {
   if (!token || typeof token !== 'string' || token.length < 10) return
 
+  const params = new URLSearchParams(location.search)
+  const id = params.get('id')
+
   async function fetchPreviewNumber() {
     try {
       const res = await fetch('https://vidhividhan-2.onrender.com/api/invoices/next-number', {
@@ -64,8 +73,36 @@ useEffect(() => {
     }
   }
 
-  fetchPreviewNumber()
-}, [token])
+  async function fetchInvoiceById(invoiceId) {
+    try {
+      const res = await fetch(`https://vidhividhan-2.onrender.com/api/invoices/${invoiceId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) {
+        console.error('Failed to fetch invoice:', res.status)
+        return
+      }
+      const data = await res.json()
+      // Ensure date is in YYYY-MM-DD
+      const createdDate = data.createdDate ? data.createdDate.split('T')[0] : new Date().toISOString().split('T')[0]
+      setInvoice({
+        ...data,
+        createdDate,
+        companyLogo,
+        bgimage,
+      })
+      setEditingId(data._id || invoiceId)
+    } catch (err) {
+      console.error('Error fetching invoice by id:', err)
+    }
+  }
+
+  if (id) {
+    fetchInvoiceById(id)
+  } else {
+    fetchPreviewNumber()
+  }
+}, [token, location.search])
 
   const handleSenderChange = (field, value) => {
     setInvoice({
@@ -171,8 +208,14 @@ useEffect(() => {
         total: parseFloat(totals.total) || 0,
       }
 
-      const res = await fetch('https://vidhividhan-2.onrender.com/api/invoices', {
-        method: 'POST',
+      const url = editingId
+        ? `https://vidhividhan-2.onrender.com/api/invoices/${editingId}`
+        : 'https://vidhividhan-2.onrender.com/api/invoices'
+
+      const method = editingId ? 'PUT' : 'POST'
+
+      const res = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -186,8 +229,9 @@ useEffect(() => {
       }
 
       const saved = await res.json()
-      alert('Invoice saved successfully')
+      alert(editingId ? 'Invoice updated successfully' : 'Invoice saved successfully')
       console.log('Saved invoice:', saved)
+      navigate('/invoices')
     } catch (err) {
       console.error('Save invoice error:', err)
       alert('Error saving invoice: ' + (err.message || 'Unknown error'))
@@ -214,7 +258,7 @@ useEffect(() => {
   return (
     <div className="invoice-creator">
       <div className="invoice-header">
-        <h1>Create Invoice</h1>
+        <h1>{editingId ? 'Edit Invoice' : 'Create Invoice'}</h1>
         <div className="invoice-actions">
           <button onClick={handlePrint} className="btn btn-print">
             🖨️ Print

@@ -1,7 +1,7 @@
 .invoice-creator {
-  animation: fadeIn 0.3s ease-in;
+  animation: fadeIn .32s ease-in;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto
 }
 
 @keyframes fadeIn {
@@ -9,6 +9,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -19,34 +20,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  margin-bottom: 20px
+}
+
+.invoice-header .card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px
 }
 
 .invoice-header h1 {
-  font-size: 28px;
-  color: white;
+  font-size: 22px;
   margin: 0;
+  color: var(--text)
 }
 
 .invoice-actions {
   display: flex;
-  gap: 12px;
+  gap: 12px
 }
 
 .invoice-container {
-  background: white;
-  padding: 40px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  padding: 28px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  box-shadow: var(--shadow)
 }
+
 .readonly-input {
-  background: #f5f5f5;
-  cursor: not-allowed;
+  background: transparent;
+  color: var(--muted);
+  border: none
 }
 
 .form-section {
@@ -54,14 +60,14 @@
 }
 
 .form-section h3 {
-  font-size: 16px;
-  color: #1a202c;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #667eea;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px
 }
 
 .form-row {
@@ -79,38 +85,28 @@
 .form-group label {
   font-size: 13px;
   font-weight: 700;
-  color: #4a5568;
+  color: var(--muted);
   margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px
 }
 
 .form-group input {
   padding: 12px 14px;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  transition: all 0.3s ease;
-  background: #f9fafb;
-}
-
-.form-group input:hover {
-  border-color: #cbd5e0;
-  background: white;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text)
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 6px 20px rgba(92, 63, 255, 0.08);
+  border-color: var(--accent)
 }
 
 .form-group input:disabled {
-  background: #f0f1f4;
-  color: #a0aec0;
-  border-color: #e2e8f0;
+  opacity: 0.75
 }
 
 .event-dates-list {
@@ -127,46 +123,42 @@
 
 .event-date-row input[type="date"] {
   padding: 10px 12px;
-  border: 2px solid #e2e8f0;
   border-radius: 6px;
-  background: white;
 }
 
 /* Items Table */
 .items-table {
-  border: 2px solid #e2e8f0;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 20px;
-  background: white;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  border: 1px solid rgba(255, 255, 255, 0.03)
 }
 
 .items-table .table-header {
   display: grid;
   grid-template-columns: 2fr 110px 80px 130px 60px;
-  gap: 15px;
-  padding: 18px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-weight: 700;
-  color: white;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--muted);
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1px
 }
 
 .items-table .table-row {
   display: grid;
   grid-template-columns: 2fr 110px 80px 130px 60px;
-  gap: 15px;
-  padding: 18px;
-  border-bottom: 1px solid #e2e8f0;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.02);
   align-items: center;
-  background: #f9fafb;
-  transition: background 0.2s ease;
+  transition: transform .12s ease
 }
 
 .items-table .table-row:hover {
-  background: #f0f1f4;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow)
 }
 
 .items-table .table-row:last-child {
@@ -175,25 +167,24 @@
 
 .items-table input {
   padding: 10px 12px;
-  border: 2px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 13px;
-  background: white;
-  transition: border-color 0.3s ease;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text)
 }
 
 .items-table input:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 6px 20px rgba(92, 63, 255, 0.08);
+  border-color: var(--accent)
 }
 
 .col-description {
   min-width: 0;
 }
 
-.col-price {
-  text-align: right;
+.col-price input,
+input.col-price {
+  text-align: center;
   font-weight: 600;
 }
 
@@ -212,20 +203,17 @@
 input.col-qty {
   text-align: center;
   font-weight: 600;
-  background: #f9fafb;
 }
 
 .col-total {
   font-weight: 700;
-  color: #2d3748;
-  background: #edf2f7;
   padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px dashed #cbd5e0;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(124, 92, 255, 0.08), rgba(0, 194, 168, 0.04));
+  color: var(--text);
+  text-align: right
 }
-.items-table .table-row:hover .col-total {
-  background: #e9edfb;
-}
+
 .items-table .table-header .col-price,
 .items-table .table-header .col-qty,
 .items-table .table-header .col-total {
@@ -234,173 +222,125 @@ input.col-qty {
 
 
 .btn-remove {
-  background: #fed7d7;
-  color: #742a2a;
+  background: linear-gradient(90deg, #ff6b6b, #ff8a8a);
+  color: white;
   border: none;
   padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  font-size: 12px;
+  border-radius: 8px;
+  font-weight: 700
 }
 
-.btn-remove:hover:not(:disabled) {
-  background: #fc8181;
-  color: white;
-  transform: scale(1.05);
-}
-
-.btn-remove:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.btn-remove:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45)
 }
 
 .btn-add-item {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, var(--accent), #5a3bfe);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 700
 }
 
 .btn-add-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 30px rgba(92, 63, 255, 0.16)
 }
 
 /* Totals */
 .totals-section {
-  background: linear-gradient(135deg, #f9fafb 0%, #f0f1f4 100%);
-  padding: 30px;
-  border-radius: 10px;
-  border: 2px solid #e2e8f0;
+  background: transparent;
+  padding: 18px;
+  border-radius: 10px
 }
 
 .totals-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 25px;
-  text-align: right;
+  gap: 18px;
+  text-align: right
 }
 
 .total-item {
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.02)
 }
 
 .total-item label {
   font-size: 12px;
-  color: #718096;
+  color: var(--muted);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 10px;
+  margin-bottom: 8px
 }
 
 .total-item p {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
-  color: #2d3748;
+  color: var(--text)
 }
 
 .total-item.total-final {
-  border: 2px solid #667eea;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, var(--accent), #5a3bfe);
   color: white;
-}
-
-.total-item.total-final label {
-  color: rgba(255, 255, 255, 0.9);
+  border: none
 }
 
 .total-item.total-final p {
-  color: white;
-  font-size: 28px;
+  font-size: 24px
 }
 
 /* Buttons */
 .btn {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 13px;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: transparent;
+  color: var(--text);
+  font-weight: 700
 }
 
 .btn-print {
-  background: white;
-  color: #2c5aa0;
-  border: 2px solid #2c5aa0;
-}
-
-.btn-print:hover {
-  background: #2c5aa0;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(44, 90, 160, 0.3);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text)
 }
 
 .btn-download {
-  background: white;
-  color: #22543d;
-  border: 2px solid #22543d;
-}
-
-.btn-download:hover {
-  background: #22543d;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(34, 84, 61, 0.3);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text)
 }
 
 .btn-save {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, var(--accent), #5a3bfe);
   color: white;
-  border: none;
-}
-
-.btn-save:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  border: none
 }
 
 .btn-reset {
-  background: white;
-  color: #4a5568;
-  border: 2px solid #cbd5e0;
-}
-
-.btn-reset:hover {
-  background: #f7fafc;
-  border-color: #4a5568;
-  transform: translateY(-2px);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--muted)
 }
 
 .form-actions {
   display: flex;
-  gap: 15px;
-  margin-top: 40px;
-  padding-top: 25px;
-  border-top: 2px solid #e2e8f0;
+  gap: 14px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.02)
 }
 
 @media print {
+
   .invoice-header,
   .form-actions,
   .btn {
