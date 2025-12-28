@@ -5,13 +5,20 @@ import mongoose from 'mongoose'
 
 export async function getNextInvoicePreview(req, res) {
   try {
-    const counter = await Counter.findOne({ name: 'invoice' })
+    let counter
+    try {
+      counter = await Counter.findOne({ name: 'invoice' })
+    } catch (dbErr) {
+      console.warn('Counter fetch warning:', dbErr.message)
+      counter = null
+    }
+    
     const nextSeq = (counter?.seq || 0) + 1
     const invoiceNumber = `INV-${String(nextSeq).padStart(4, '0')}`
     res.json({ invoiceNumber })
   } catch (err) {
     console.error('Preview invoice number error:', err)
-    res.status(500).json({ message: 'Failed to get invoice preview' })
+    res.status(500).json({ message: 'Failed to get invoice preview', error: err.message })
   }
 }
 
