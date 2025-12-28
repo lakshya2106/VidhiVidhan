@@ -6,27 +6,45 @@ const generateInvoicePDF = async (invoice, totals) => {
   const W = doc.internal.pageSize.getWidth()
   const H = doc.internal.pageSize.getHeight()
 
- const gState = doc.GState({ opacity: 0.25 }) 
+
+const drawPageBackground = () => {
+  const gState = doc.GState({ opacity: 0.25 }) 
   doc.setGState(gState)
   doc.addImage(invoice.bgimage, 0, 0, W, H)
+  // background image
+  if (invoice.bgimage) {
+    doc.addImage(invoice.bgimage, "PNG", 0, 0, W, H)
+  }
+
+  // faint centered logo watermark
+  if (invoice.companyLogo) {
+    const g = doc.GState({ opacity: 0.05 })
+    doc.setGState(g)
+    doc.addImage(invoice.companyLogo, "PNG", 0, 0, W, H)
+    doc.setGState(doc.GState({ opacity: 1 }))
+  }
+}
+      drawPageBackground()
+
+ 
 
   // ===== BACKGROUND IMAGE =====
-if (invoice.bgimage) {
-  doc.addImage(
-    invoice.bgimage,
-    "PNG",    
-    0,
-    0,
-    W,
-    H
-  )
-}
- const gState1 = doc.GState({ opacity: 0.05 }) 
-  doc.setGState(gState1)
+// if (invoice.bgimage) {
+//   doc.addImage(
+//     invoice.bgimage,
+//     "PNG",    
+//     0,
+//     0,
+//     W,
+//     H
+//   )
+// }
+//  const gState1 = doc.GState({ opacity: 0.05 }) 
+//   doc.setGState(gState1)
 
-  doc.addImage(invoice.companyLogo, "PNG", 0,0,W,H)
+//   doc.addImage(invoice.companyLogo, "PNG", 0,0,W,H)
 
-    doc.setGState(doc.GState({ opacity: 1 }))
+//     doc.setGState(doc.GState({ opacity: 1 }))
   
   /* COLORS */
   const gold = [176, 146, 55]
@@ -109,8 +127,8 @@ if (invoice.bgimage) {
     leftY += lines.length * 5
   }
 
-  if (invoice.receiver.phn) {
-    doc.text(`Phone: ${invoice.receiver.phn}`, leftX, leftY)
+  if (invoice.receiver.phoneNumber) {
+    doc.text(`Phone: ${invoice.receiver.phoneNumber}`, leftX, leftY)
     leftY += 6
   }
 
@@ -147,7 +165,7 @@ if (invoice.bgimage) {
     doc.text("Total", 165, y + 7)
   }
 
-  let y = 90
+  let y = 80
   drawTableHeader(y)
   y += 20
 
@@ -158,17 +176,7 @@ if (invoice.bgimage) {
   invoice.items.forEach((item, i) => {
     if (y > bottomLimit) {
      doc.addPage()
-
-if (invoice.bgimage) {
-  doc.addImage(
-    invoice.bgimage,
-    "PNG",
-    0,
-    0,
-    W,
-    H
-  )
-}
+      drawPageBackground()
 
 y = 30
 drawTableHeader(y)
@@ -192,7 +200,7 @@ y += 20
   })
 
   /* ================= TOTALS ================= */
-  y += 12
+  y += 4
 
   const boxX = W - 85
   const boxY = y - 4
@@ -218,17 +226,57 @@ y += 20
   doc.text("TOTAL", boxX + 4, y + 2)
   doc.text(String(totals.total), boxX + boxW - 4, y + 2, { align: "right" })
 
-  /* ================= TERMS ================= */
-  doc.setFontSize(9)
-  doc.setFont("helvetica", "bold")
-  doc.text("Terms & Conditions", margin, y + 12)
+  // /* ================= TERMS ================= */
+  // doc.setFontSize(9)
+  // doc.setFont("helvetica", "bold")
+  // doc.text("Terms & Conditions", margin, y + 12)
 
-  doc.setFont("helvetica", "normal")
-  doc.text(
-    "Payment should be completed within the due date mentioned above.\nThank you for choosing our services.",
-    margin,
-    y + 18
-  )
+  // doc.setFont("helvetica", "normal")
+  // doc.text(
+  //   `50% Advance Payement . Before Event 30% . After Event 20%.`,
+  //   margin,
+  //   y + 18
+  // )
+
+  /* ================= TERMS (AUTO PAGE SAFE) ================= */
+
+// space required for terms block
+const termsBlockHeight = 15
+
+// If not enough space, move to next page
+if (y + termsBlockHeight > H - 80) {
+  doc.addPage()
+
+  // redraw Images if needed
+  drawPageBackground()
+
+  y = 40 // safe top position on new page
+}
+
+// Draw terms
+doc.setFontSize(9)
+doc.setFont("helvetica", "bold")
+doc.text("Terms & Conditions", margin, y + 12)
+
+doc.setFont("helvetica", "normal")
+doc.text(
+  "50% Advance Payment. Before Event 30%. After Event 20%.",
+  margin,
+  y + 18
+)
+
+  
+  // /* ================= NOTE ================= */
+  // doc.setFontSize(9)
+  // doc.setFont("helvetica", "bold")
+  // doc.text("Note", margin, y + 30)
+
+  // doc.setFont("helvetica", "normal")
+  // doc.text(
+  //   `${invoice.footerText}\n${invoice.footerText2}`,
+  //   margin,
+  //   y + 34
+  // )
 
   /* ================= QR CODE ================= */
 const upiId = "nikhilnpurbia@okhdfcbank"        
@@ -261,11 +309,11 @@ doc.text("Scan to pay via GPay / PhonePe / Paytm", margin + 35, H - 52)
 
   /* ================= FOOTER ================= */
   doc.setFontSize(9)
-  doc.setTextColor(...gray)
+  doc.setTextColor(...dark)
   doc.text(`Address1:${invoice.sender.address1 || ""}`, W / 2, H - 22, { align: "center" })
-  doc.text(`Address2${invoice.sender.address2 || ""}`, W / 2, H - 16, { align: "center" })
+  doc.text(`Address2:${invoice.sender.address2 || ""}`, W / 2, H - 16, { align: "center" })
   doc.text(`Mobile No. :${invoice.sender.acc || ""}`, W / 2, H - 10, { align: "center" })
-  doc.text(`Email: `, W / 2, H - 4, { align: "center" })
+  doc.text(`Email: vidhividhan24@gmail.com `, W / 2, H - 4, { align: "center" })
 
 
   // Instagram (right aligned + clickable)

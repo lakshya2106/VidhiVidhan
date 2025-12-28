@@ -30,7 +30,7 @@ function InvoiceCreator() {
     items: [{ description: '', price: '', qty: 1 }],
     taxRate: 18,
     footerText: 'Thank you for your business!',
-    footerText2: 'Payment due within 30 days',
+    footerText2: '',
   })
 
   const handleSenderChange = (field, value) => {

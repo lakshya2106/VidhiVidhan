@@ -88,7 +88,7 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
   gap: 15px;
   padding: 12px 0;
   border-bottom: 2px solid #e2e8f0;
@@ -101,7 +101,7 @@
 
 .table-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
   gap: 15px;
   padding: 15px 0;
   border-bottom: 1px solid #e2e8f0;

@@ -3,6 +3,8 @@ import './App.css'
 import Sidebar from './components/Sidebar'
 import Dashboard from './pages/Dashboard'
 import InvoiceCreator from './pages/InvoiceCreator'
+import InvoiceList from './pages/InvoiceList'
+import EventsManager from './pages/EventsManager'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import { AuthProvider, AuthContext } from './auth/AuthContext'
@@ -34,12 +36,29 @@ function AppInner() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/invoices"
+              element={
+                <ProtectedRoute>
+                  <InvoiceList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events"
+              element={
+                <ProtectedRoute>
+                  <EventsManager />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </div>
     </Router>
   )
 }
+
 
 function App() {
   return (

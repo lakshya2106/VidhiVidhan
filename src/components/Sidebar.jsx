@@ -27,6 +27,14 @@ function Sidebar() {
           <span className="icon">📄</span>
           <span>Create Invoice</span>
         </Link>
+        <Link to="/invoices" className="nav-item">
+          <span className="icon">📋</span>
+          <span>Invoice List</span>
+        </Link>
+        <Link to="/events" className="nav-item">
+          <span className="icon">🎉</span>
+          <span>Events Manager</span>
+        </Link>
       </nav>
       <div className="sidebar-footer">
         <button className="logout-button" onClick={handleLogout}>
