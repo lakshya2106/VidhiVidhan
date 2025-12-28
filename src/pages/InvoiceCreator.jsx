@@ -42,7 +42,7 @@ useEffect(() => {
 
   async function fetchPreviewNumber() {
     try {
-      const res = await fetch('/api/invoices/next-number', {
+      const res = await fetch('https://vidhividhan-2.onrender.com/api/invoices/next-number', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -171,7 +171,7 @@ useEffect(() => {
         total: parseFloat(totals.total) || 0,
       }
 
-      const res = await fetch('/api/invoices', {
+      const res = await fetch('https://vidhividhan-2.onrender.com/api/invoices', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
