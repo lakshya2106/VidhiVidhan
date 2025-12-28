@@ -1,8 +1,10 @@
 import express from 'express'
 import auth from '../middleware/auth.js'
-import { createInvoice, getInvoices, getInvoice, updateInvoice, deleteInvoice, updateInvoiceStatus } from '../controllers/invoiceController.js'
+import { createInvoice, getInvoices, getInvoice, updateInvoice, deleteInvoice, updateInvoiceStatus,getNextInvoicePreview } from '../controllers/invoiceController.js'
 
 const router = express.Router()
+
+router.get('/next-number', auth, getNextInvoicePreview)
 
 router.post('/', auth, createInvoice)
 router.get('/', auth, getInvoices)

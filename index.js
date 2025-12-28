@@ -14,8 +14,20 @@ const app = express()
 const PORT = process.env.PORT || 5000
 const MONGODB_URI = process.env.MONGODB_URI
 
-app.use(cors())
-app.use(express.json())
+
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}))
+
+// 🔑 MUST be before routes
+app.options('*', cors())
+
+
+// Allow slightly larger JSON payloads (in case small images or larger invoices are sent)
+app.use(express.json({ limit: '1mb' }))
+app.use(express.urlencoded({ extended: true, limit: '1mb' }))
 
 // Routes
 app.use('/api/admin', adminRoutes)

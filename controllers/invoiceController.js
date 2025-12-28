@@ -1,31 +1,60 @@
 import Invoice from '../models/Invoice.js'
+import Counter from '../models/Counter.js'
 import mongoose from 'mongoose'
+
+
+export async function getNextInvoicePreview(req, res) {
+  try {
+    const counter = await Counter.findOne({ name: 'invoice' })
+    const nextSeq = (counter?.seq || 0) + 1
+    const invoiceNumber = `INV-${String(nextSeq).padStart(4, '0')}`
+    res.json({ invoiceNumber })
+  } catch (err) {
+    console.error('Preview invoice number error:', err)
+    res.status(500).json({ message: 'Failed to get invoice preview' })
+  }
+}
 
 export async function createInvoice(req, res) {
   const { invoice, totals } = req.body
-  const mobile = req.user.mobile
+  const mobile = req.user && req.user.mobile
+
+  if (!invoice || !totals) {
+    return res.status(400).json({ message: 'Missing invoice or totals in request body' })
+  }
 
   try {
+     const invoiceNumber = await getNextInvoiceNumber()
     const newInvoice = await Invoice.create({
-      invoiceNumber: invoice.invoiceNumber,
+      invoiceNumber,
       createdDate: invoice.createdDate,
       dueDate: invoice.dueDate,
       sender: invoice.sender,
       receiver: invoice.receiver,
       items: invoice.items,
       taxRate: invoice.taxRate,
-      subTotal: parseFloat(totals.subTotal),
-      taxAmount: parseFloat(totals.taxAmount),
-      total: parseFloat(totals.total),
+      subTotal: Number.isFinite(parseFloat(totals.subTotal)) ? parseFloat(totals.subTotal) : 0,
+      taxAmount: Number.isFinite(parseFloat(totals.taxAmount)) ? parseFloat(totals.taxAmount) : 0,
+      total: Number.isFinite(parseFloat(totals.total)) ? parseFloat(totals.total) : 0,
       footerText: invoice.footerText,
       footerText2: invoice.footerText2,
       status: 'draft',
-      createdBy: mobile,
+      createdBy: mobile || 'unknown',
     })
     res.status(201).json(newInvoice)
   } catch (err) {
     console.error('Create invoice error:', err)
-    res.status(500).json({ message: 'Error creating invoice' })
+    // Duplicate key (unique invoiceNumber)
+    if (err && err.code === 11000) {
+      return res.status(409).json({ message: 'Invoice number already exists' })
+    }
+    // Mongoose validation errors
+    if (err && err.name === 'ValidationError') {
+      const details = Object.values(err.errors || {}).map((e) => e.message)
+      return res.status(400).json({ message: 'Validation error', details })
+    }
+
+    res.status(500).json({ message: err.message || 'Error creating invoice' })
   }
 }
 
