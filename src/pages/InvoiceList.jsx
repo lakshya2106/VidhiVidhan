@@ -15,7 +15,7 @@ function InvoiceList() {
 
   async function fetchInvoices() {
     try {
-      const res = await fetch('http://localhost:5000/api/invoices', {
+      const res = await fetch('https://vidhividhan-2.onrender.com/api/invoices', {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (res.ok) {
@@ -32,7 +32,7 @@ function InvoiceList() {
   async function handleDelete(id) {
     if (!window.confirm('Are you sure you want to delete this invoice?')) return
     try {
-      const res = await fetch(`http://localhost:5000/api/invoices/${id}`, {
+      const res = await fetch(`https://vidhividhan-2.onrender.com/api/invoices/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -46,7 +46,7 @@ function InvoiceList() {
 
   async function handleStatusChange(id, newStatus) {
     try {
-      const res = await fetch(`http://localhost:5000/api/invoices/${id}/status`, {
+      const res = await fetch(`https://vidhividhan-2.onrender.com/api/invoices/${id}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

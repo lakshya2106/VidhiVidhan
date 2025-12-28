@@ -44,6 +44,10 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid #e2e8f0;
 }
+.readonly-input {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
 
 .form-section {
   margin-bottom: 35px;

@@ -26,7 +26,7 @@ function EventsManager() {
 
   async function fetchEvents() {
     try {
-      const res = await fetch('http://localhost:5000/api/events', {
+      const res = await fetch('https://vidhividhan-2.onrender.com/api/events', {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (res.ok) {
@@ -44,8 +44,8 @@ function EventsManager() {
     e.preventDefault()
     try {
       const url = editingId 
-        ? `http://localhost:5000/api/events/${editingId}`
-        : 'http://localhost:5000/api/events'
+        ? `https://vidhividhan-2.onrender.com/api/events/${editingId}`
+        : 'https://vidhividhan-2.onrender.com/api/events'
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {
@@ -74,7 +74,7 @@ function EventsManager() {
   async function handleDelete(id) {
     if (!window.confirm('Delete this event?')) return
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${id}`, {
+      const res = await fetch(`https://vidhividhan-2.onrender.com/api/events/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })

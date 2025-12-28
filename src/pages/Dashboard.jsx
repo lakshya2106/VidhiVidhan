@@ -16,7 +16,7 @@ function Dashboard() {
     async function fetchData() {
       try {
         // Fetch stats
-        const statsRes = await fetch('http://localhost:5000/api/events/stats', {
+        const statsRes = await fetch('https://vidhividhan-2.onrender.com/api/events/stats', {
           headers: { Authorization: `Bearer ${token}` },
         })
         if (statsRes.ok) {
@@ -25,7 +25,7 @@ function Dashboard() {
         }
 
         // Fetch recent events
-        const eventsRes = await fetch('http://localhost:5000/api/events', {
+        const eventsRes = await fetch('https://vidhividhan-2.onrender.com/api/events', {
           headers: { Authorization: `Bearer ${token}` },
         })
         if (eventsRes.ok) {

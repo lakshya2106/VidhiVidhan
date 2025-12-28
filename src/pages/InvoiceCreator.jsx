@@ -1,17 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import generateInvoicePDF from './generateInvoicePDF'
+import { AuthContext } from '../auth/AuthContext'
 import '../styles/InvoiceCreator.css'
 
 import companyLogo from '../assets/logoBase64'
 import bgimage from '../assets/bgBase64'
 
 function InvoiceCreator() {
+
+  const { token } = useContext(AuthContext)
+
   const [invoice, setInvoice] = useState({
-    invoiceNumber: 'INV-001',
+    invoiceNumber: '',
     createdDate: new Date().toISOString().split('T')[0],
     dueDate: '',
     companyLogo: companyLogo,
-    bgimage:bgimage,
+    bgimage: bgimage,
     sender: {
       name: 'Vidhi Vidhan',
       address1: '',
@@ -32,6 +36,36 @@ function InvoiceCreator() {
     footerText: 'Thank you for your business!',
     footerText2: '',
   })
+
+useEffect(() => {
+  if (!token || typeof token !== 'string' || token.length < 10) return
+
+  async function fetchPreviewNumber() {
+    try {
+      const res = await fetch('/api/invoices/next-number', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (!res.ok) {
+        const text = await res.text()
+        console.error('Preview fetch failed:', res.status, text)
+        return
+      }
+
+      const data = await res.json()
+      setInvoice(prev => ({
+        ...prev,
+        invoiceNumber: data.invoiceNumber,
+      }))
+    } catch (err) {
+      console.error('Failed to fetch invoice preview number', err)
+    }
+  }
+
+  fetchPreviewNumber()
+}, [token])
 
   const handleSenderChange = (field, value) => {
     setInvoice({
@@ -69,37 +103,96 @@ function InvoiceCreator() {
     setInvoice({ ...invoice, items: newItems })
   }
 
-const addItem = () => {
-  setInvoice({
-    ...invoice,
-    items: [...invoice.items, { description: '', price: '', qty:'' }],
-  })
-}
-
+  const addItem = () => {
+    setInvoice({
+      ...invoice,
+      items: [...invoice.items, { description: '', price: '', qty: '' }],
+    })
+  }
 
   const removeItem = (index) => {
     const newItems = invoice.items.filter((_, i) => i !== index)
     setInvoice({ ...invoice, items: newItems })
   }
 
-const calculateTotals = () => {
-  const subTotal = invoice.items.reduce((sum, item) => {
-    const price = parseFloat(item.price) || 0
-    const qty = parseInt(item.qty) || 1
-    return sum + price * qty
-  }, 0)
+  const calculateTotals = () => {
+    const subTotal = invoice.items.reduce((sum, item) => {
+      const price = parseFloat(item.price) || 0
+      const qty = parseInt(item.qty) || 1
+      return sum + price * qty
+    }, 0)
 
-  const taxAmount = (subTotal * invoice.taxRate) / 100
+    const taxAmount = (subTotal * invoice.taxRate) / 100
 
-  return {
-    subTotal: subTotal.toFixed(2),
-    taxAmount: taxAmount.toFixed(2),
-    total: (subTotal + taxAmount).toFixed(2),
+    return {
+      subTotal: subTotal.toFixed(2),
+      taxAmount: taxAmount.toFixed(2),
+      total: (subTotal + taxAmount).toFixed(2),
+    }
   }
-}
-
 
   const totals = calculateTotals()
+
+
+  const handleSave = async () => {
+    if (!invoice.receiver.name.trim()) {
+      alert('Client name is required')
+      return
+    }
+
+    if (!invoice.items.length || !invoice.items[0].description.trim()) {
+      alert('At least one item with description is required')
+      return
+    }
+
+
+    if (!token) {
+      alert('You must be logged in to save invoices')
+      return
+    }
+
+    try {
+      // Deep-clone and sanitize invoice to avoid sending large base64 images
+      const payloadInvoice = JSON.parse(JSON.stringify(invoice))
+      // Remove potentially large embedded images
+      delete payloadInvoice.companyLogo
+      delete payloadInvoice.bgimage
+
+      // Normalize items: ensure numeric prices/qty
+      payloadInvoice.items = (payloadInvoice.items || []).map((it) => ({
+        description: it.description || '',
+        price: parseFloat(it.price) || 0,
+        qty: parseInt(it.qty) || 1,
+      }))
+
+      const payloadTotals = {
+        subTotal: parseFloat(totals.subTotal) || 0,
+        taxAmount: parseFloat(totals.taxAmount) || 0,
+        total: parseFloat(totals.total) || 0,
+      }
+
+      const res = await fetch('/api/invoices', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ invoice: payloadInvoice, totals: payloadTotals }),
+      })
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.message || 'Failed to save invoice')
+      }
+
+      const saved = await res.json()
+      alert('Invoice saved successfully')
+      console.log('Saved invoice:', saved)
+    } catch (err) {
+      console.error('Save invoice error:', err)
+      alert('Error saving invoice: ' + (err.message || 'Unknown error'))
+    }
+  }
 
   const handleDownloadPDF = () => {
     if (!invoice.sender.name) {
@@ -141,8 +234,9 @@ const calculateTotals = () => {
               <label>Invoice Number</label>
               <input
                 type="text"
-                value={invoice.invoiceNumber}
-                onChange={(e) => setInvoice({ ...invoice, invoiceNumber: e.target.value })}
+                value={invoice.invoiceNumber || 'Generating...'}
+                readOnly
+                className="readonly-input"
               />
             </div>
 
@@ -307,54 +401,54 @@ const calculateTotals = () => {
         <section className="form-section">
           <h3>Invoice Items</h3>
           <div className="items-table">
-<div className="table-header">
-  <div className="col-description">Description</div>
-  <div className="col-price">Amount (₹)</div>
-  <div className="col-qty">Qty</div>
-  <div className="col-total">Total (₹)</div>
-  <div className="col-action">Action</div>
-</div>
+            <div className="table-header">
+              <div className="col-description">Description</div>
+              <div className="col-price">Amount (₹)</div>
+              <div className="col-qty">Qty</div>
+              <div className="col-total">Total (₹)</div>
+              <div className="col-action">Action</div>
+            </div>
             {invoice.items.map((item, index) => (
-<div key={index} className="table-row">
-  <input
-    type="text"
-    className="col-description"
-    placeholder="Service description"
-    value={item.description}
-    onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-  />
+              <div key={index} className="table-row">
+                <input
+                  type="text"
+                  className="col-description"
+                  placeholder="Service description"
+                  value={item.description}
+                  onChange={(e) => handleItemChange(index, 'description', e.target.value)}
+                />
 
-  <input
-    type="number"
-    className="col-price"
-    placeholder="0.00"
-    step="0.01"
-    value={item.price}
-    onChange={(e) => handleItemChange(index, 'price', e.target.value)}
-  />
+                <input
+                  type="number"
+                  className="col-price"
+                  placeholder="0.00"
+                  step="0.01"
+                  value={item.price}
+                  onChange={(e) => handleItemChange(index, 'price', e.target.value)}
+                />
 
-  <input
-    type="number"
-    className="col-qty"
-    min="1"
-    value={item.qty}
-    onChange={(e) =>
-      handleItemChange(index, 'qty', parseInt(e.target.value) || 1)
-    }
-  />
+                <input
+                  type="number"
+                  className="col-qty"
+                  min="1"
+                  value={item.qty}
+                  onChange={(e) =>
+                    handleItemChange(index, 'qty', parseInt(e.target.value) || 1)
+                  }
+                />
 
-  <div className="col-total">
-    ₹ {(Number(item.price || 0) * Number(item.qty || 1)).toFixed(2)}
-  </div>
+                <div className="col-total">
+                  ₹ {(Number(item.price || 0) * Number(item.qty || 1)).toFixed(2)}
+                </div>
 
-  <button
-    className="col-action btn-remove"
-    onClick={() => removeItem(index)}
-    disabled={invoice.items.length === 1}
-  >
-    ✕
-  </button>
-</div>
+                <button
+                  className="col-action btn-remove"
+                  onClick={() => removeItem(index)}
+                  disabled={invoice.items.length === 1}
+                >
+                  ✕
+                </button>
+              </div>
 
             ))}
           </div>
@@ -408,7 +502,7 @@ const calculateTotals = () => {
 
         {/* Form Actions */}
         <div className="form-actions">
-          <button className="btn btn-save">💾 Save Invoice</button>
+          <button className="btn btn-save" onClick={handleSave} type="button">💾 Save Invoice</button>
           <button className="btn btn-reset" onClick={() => window.location.reload()}>
             🔄 Reset Form
           </button>
