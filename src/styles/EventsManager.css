@@ -19,56 +19,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
-}
-
-.page-header h1 {
-  font-size: 28px;
-  color: white;
-  margin: 0;
-}
-
-.btn {
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  font-size: 14px;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-}
-
-.btn-success {
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-  color: white;
-}
-
-.btn-success:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
-}
-
-.btn-secondary {
-  background: #cbd5e0;
-  color: #2d3748;
-}
-
-.btn-secondary:hover {
-  background: #a0aec0;
+  margin-bottom: 24px;
 }
 
 .event-form-container {
@@ -132,16 +83,7 @@
 }
 
 .filter-select {
-  padding: 10px 15px;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  background: white;
-}
-
-.filter-select:hover {
-  border-color: #667eea;
+  min-width: 220px;
 }
 
 .events-grid {
@@ -152,14 +94,11 @@
 
 .event-card {
   border-radius: 12px;
-   background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(15, 23, 42, 0.95));
   box-shadow: var(--shadow);
-   border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1px solid #e2e8f0;
-  
-
 }
 
 .event-card:hover {
@@ -168,7 +107,7 @@
 }
 
 .event-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, rgba(124, 92, 255, 0.18), rgba(56, 189, 248, 0.12));
   padding: 15px;
   color: white;
   display: flex;

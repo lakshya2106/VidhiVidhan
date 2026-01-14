@@ -55,6 +55,11 @@
   transform: translateX(6px)
 }
 
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(124, 92, 255, 0.25), rgba(0, 194, 168, 0.14));
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.7);
+}
+
 .nav-item .icon {
   font-size: 18px
 }

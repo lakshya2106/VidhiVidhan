@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import './Sidebar.css'
 import { useContext, useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -42,22 +42,56 @@ function Sidebar() {
         <p className="subtitle">Event Management</p>
       </div>
       <nav className="sidebar-nav">
-        <Link to="/" className="nav-item">
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
           <span className="icon">📊</span>
           <span>Dashboard</span>
-        </Link>
-        <Link to="/invoice-creator" className="nav-item">
+        </NavLink>
+        <NavLink
+          to="/invoice-creator"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
           <span className="icon">📄</span>
           <span>Create Invoice</span>
-        </Link>
-        <Link to="/invoices" className="nav-item">
+        </NavLink>
+        <NavLink
+          to="/invoices"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
           <span className="icon">📋</span>
           <span>Invoice List</span>
-        </Link>
-        <Link to="/events" className="nav-item">
+        </NavLink>
+        <NavLink
+          to="/events"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
           <span className="icon">🎉</span>
           <span>Events Manager</span>
-        </Link>
+        </NavLink>
+        <NavLink
+          to="/clients"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
+          <span className="icon">👥</span>
+          <span>Clients</span>
+        </NavLink>
+        <NavLink
+          to="/profile"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
+          <span className="icon">👤</span>
+          <span>Admin Profile</span>
+        </NavLink>
+        <NavLink
+          to="/activity-log"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
+          <span className="icon">📜</span>
+          <span>Activity Log</span>
+        </NavLink>
       </nav>
       <div className="sidebar-footer">
         <button className="logout-button" onClick={handleLogout} aria-label="Logout">

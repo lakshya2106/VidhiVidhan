@@ -6,6 +6,7 @@ import '../styles/InvoiceCreator.css'
 import companyLogo from '../assets/logoBase64'
 import bgimage from '../assets/bgBase64'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { logActivity } from '../utils/activityLog'
 
 function InvoiceCreator() {
 
@@ -41,6 +42,7 @@ function InvoiceCreator() {
     taxRate: 18,
     footerText: 'Thank you for your business!',
     footerText2: '',
+    note: '',
   })
 
 useEffect(() => {
@@ -48,6 +50,8 @@ useEffect(() => {
 
   const params = new URLSearchParams(location.search)
   const id = params.get('id')
+  const clientName = params.get('clientName')
+  const eventDate = params.get('eventDate')
 
   async function fetchPreviewNumber() {
     try {
@@ -101,6 +105,17 @@ useEffect(() => {
     fetchInvoiceById(id)
   } else {
     fetchPreviewNumber()
+    // Prefill some fields when coming from Events page
+    if (clientName || eventDate) {
+      setInvoice(prev => ({
+        ...prev,
+        receiver: {
+          ...prev.receiver,
+          name: clientName || prev.receiver.name,
+          events: eventDate ? [eventDate.split('T')[0]] : prev.receiver.events,
+        },
+      }))
+    }
   }
 }, [token, location.search])
 
@@ -230,7 +245,11 @@ useEffect(() => {
 
       const saved = await res.json()
       alert(editingId ? 'Invoice updated successfully' : 'Invoice saved successfully')
-      console.log('Saved invoice:', saved)
+      logActivity({
+        action: editingId ? 'Updated invoice' : 'Created invoice',
+        entity: 'invoice',
+        details: saved.invoiceNumber,
+      })
       navigate('/invoices')
     } catch (err) {
       console.error('Save invoice error:', err)
@@ -437,6 +456,22 @@ useEffect(() => {
                   + Add Event Date
                 </button>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Internal Note */}
+        <section className="form-section">
+          <h3>Internal Note (Admin Only)</h3>
+          <div className="form-row">
+            <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+              <label>Note</label>
+              <input
+                type="text"
+                placeholder="Internal note about this invoice (not shown to client)"
+                value={invoice.note || ''}
+                onChange={(e) => setInvoice({ ...invoice, note: e.target.value })}
+              />
             </div>
           </div>
         </section>

@@ -27,6 +27,13 @@ export default function Login() {
       }
       const data = await res.json()
       setToken(data.token)
+      // store last login timestamp for profile page
+      try {
+        const now = new Date().toLocaleString()
+        localStorage.setItem('vv_last_login', now)
+      } catch {
+        // ignore storage errors
+      }
       navigate('/')
     } catch (e) {
       setError('Unable to reach server')

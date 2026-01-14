@@ -5,6 +5,9 @@ import Dashboard from './pages/Dashboard'
 import InvoiceCreator from './pages/InvoiceCreator'
 import InvoiceList from './pages/InvoiceList'
 import EventsManager from './pages/EventsManager'
+import AdminProfile from './pages/AdminProfile'
+import Clients from './pages/Clients'
+import ActivityLog from './pages/ActivityLog'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import { AuthProvider, AuthContext } from './auth/AuthContext'
@@ -49,6 +52,30 @@ function AppInner() {
               element={
                 <ProtectedRoute>
                   <EventsManager />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/clients"
+              element={
+                <ProtectedRoute>
+                  <Clients />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/activity-log"
+              element={
+                <ProtectedRoute>
+                  <ActivityLog />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <AdminProfile />
                 </ProtectedRoute>
               }
             />

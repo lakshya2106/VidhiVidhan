@@ -4,36 +4,69 @@ import { AuthContext } from '../auth/AuthContext'
 
 function Dashboard() {
   const { token } = useContext(AuthContext)
-  const [stats, setStats] = useState({
+  const [eventStats, setEventStats] = useState({
     totalEvents: 0,
     upcomingEvents: 0,
     completedEvents: 0,
   })
+  const [invoiceStats, setInvoiceStats] = useState({
+    totalInvoices: 0,
+    paidInvoices: 0,
+    overdueInvoices: 0,
+    totalRevenue: 0,
+  })
   const [recentEvents, setRecentEvents] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     async function fetchData() {
+      setError('')
       try {
-        // Fetch stats
+        const commonHeaders = { Authorization: `Bearer ${token}` }
+
+        // Fetch event stats
         const statsRes = await fetch('https://vidhividhan-2.onrender.com/api/events/stats', {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: commonHeaders,
         })
         if (statsRes.ok) {
           const statsData = await statsRes.json()
-          setStats(statsData)
+          setEventStats(statsData)
         }
 
         // Fetch recent events
         const eventsRes = await fetch('https://vidhividhan-2.onrender.com/api/events', {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: commonHeaders,
         })
         if (eventsRes.ok) {
           const eventsData = await eventsRes.json()
           setRecentEvents(eventsData.slice(0, 5))
         }
+
+        // Fetch invoices for dashboard stats
+        const invoicesRes = await fetch('https://vidhividhan-2.onrender.com/api/invoices', {
+          headers: commonHeaders,
+        })
+        if (invoicesRes.ok) {
+          const invoicesData = await invoicesRes.json()
+
+          const totalInvoices = invoicesData.length
+          const paidInvoices = invoicesData.filter((inv) => inv.status === 'paid').length
+          const overdueInvoices = invoicesData.filter((inv) => inv.status === 'overdue').length
+          const totalRevenue = invoicesData
+            .filter((inv) => inv.status === 'paid')
+            .reduce((sum, inv) => sum + (Number(inv.total) || 0), 0)
+
+          setInvoiceStats({
+            totalInvoices,
+            paidInvoices,
+            overdueInvoices,
+            totalRevenue,
+          })
+        }
       } catch (err) {
         console.error('Error fetching dashboard data:', err)
+        setError('Unable to load dashboard data. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -45,17 +78,19 @@ function Dashboard() {
   }, [token])
 
   const statCards = [
-    { title: 'Total Events', value: stats.totalEvents, icon: '📅' },
-    { title: 'Upcoming', value: stats.upcomingEvents, icon: '🔜' },
-    { title: 'Completed', value: stats.completedEvents, icon: '✅' },
-    { title: 'Pending Invoices', value: 0, icon: '💰' },
+    { title: 'Total Events', value: eventStats.totalEvents, icon: '📅' },
+    { title: 'Upcoming Events', value: eventStats.upcomingEvents, icon: '🔜' },
+    { title: 'Completed Events', value: eventStats.completedEvents, icon: '✅' },
+    { title: 'Total Invoices', value: invoiceStats.totalInvoices, icon: '📄' },
+    { title: 'Paid Revenue (₹)', value: invoiceStats.totalRevenue.toFixed(2), icon: '💰' },
+    { title: 'Overdue Invoices', value: invoiceStats.overdueInvoices, icon: '⚠️' },
   ]
 
   return (
     <div className="dashboard">
       <div className="dashboard-header">
         <h1>Dashboard</h1>
-        <p>Welcome to Event Management Dashboard</p>
+        <p>Overview of your events and invoices</p>
       </div>
 
       <div className="stats-grid">
@@ -69,6 +104,8 @@ function Dashboard() {
           </div>
         ))}
       </div>
+
+      {error && <p style={{ color: '#f97373', marginBottom: 12 }}>{error}</p>}
 
       <div className="recent-section">
         <h2>Recent Events</h2>

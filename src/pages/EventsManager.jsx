@@ -1,5 +1,7 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../auth/AuthContext'
+import { logActivity } from '../utils/activityLog'
 import '../styles/EventsManager.css'
 
 function EventsManager() {
@@ -9,6 +11,9 @@ function EventsManager() {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [filter, setFilter] = useState('upcoming')
+  const [search, setSearch] = useState('')
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     date: '',
@@ -25,6 +30,7 @@ function EventsManager() {
   }, [token])
 
   async function fetchEvents() {
+    setError('')
     try {
       const res = await fetch('https://vidhividhan-2.onrender.com/api/events', {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,9 +38,12 @@ function EventsManager() {
       if (res.ok) {
         const data = await res.json()
         setEvents(data)
+      } else {
+        setError('Failed to load events')
       }
     } catch (err) {
       console.error('Error fetching events:', err)
+      setError('Unable to fetch events. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -61,8 +70,18 @@ function EventsManager() {
         const result = await res.json()
         if (editingId) {
           setEvents(events.map(e => (e._id === editingId ? result : e)))
+          logActivity({
+            action: 'Updated event',
+            entity: 'event',
+            details: result.name,
+          })
         } else {
           setEvents([...events, result])
+          logActivity({
+            action: 'Created event',
+            entity: 'event',
+            details: result.name,
+          })
         }
         resetForm()
       }
@@ -79,7 +98,13 @@ function EventsManager() {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (res.ok) {
+        const deleted = events.find(e => e._id === id)
         setEvents(events.filter(e => e._id !== id))
+        logActivity({
+          action: 'Deleted event',
+          entity: 'event',
+          details: deleted?.name || id,
+        })
       }
     } catch (err) {
       console.error('Error deleting event:', err)
@@ -107,7 +132,25 @@ function EventsManager() {
     setShowForm(false)
   }
 
-  const filteredEvents = filter === 'all' ? events : events.filter(e => e.status === filter)
+  const filteredEvents = useMemo(() => {
+    const base =
+      filter === 'all' ? events : events.filter((e) => e.status === filter)
+
+    const searched = base.filter((event) => {
+      if (!search.trim()) return true
+      const term = search.toLowerCase()
+      return (
+        event.name.toLowerCase().includes(term) ||
+        event.clientName.toLowerCase().includes(term) ||
+        (event.location || '').toLowerCase().includes(term)
+      )
+    })
+
+    // simple "calendar-like" grouping by sorting by date
+    return [...searched].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    )
+  }, [events, filter, search])
 
   return (
     <div className="events-manager">
@@ -196,14 +239,35 @@ function EventsManager() {
       )}
 
       <div className="filter-bar">
-        <select value={filter} onChange={(e) => setFilter(e.target.value)} className="filter-select">
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="filter-select"
+        >
           <option value="all">All Events</option>
           <option value="upcoming">Upcoming</option>
           <option value="in-progress">In Progress</option>
           <option value="completed">Completed</option>
           <option value="cancelled">Cancelled</option>
         </select>
+        <input
+          type="text"
+          placeholder="Search by event, client or location"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            flex: 1,
+            minWidth: 0,
+            padding: '10px 12px',
+            borderRadius: 8,
+            border: '1px solid rgba(255,255,255,0.04)',
+            background: 'transparent',
+            color: 'var(--text)',
+          }}
+        />
       </div>
+
+      {error && <p style={{ color: '#f97373', marginBottom: 12 }}>{error}</p>}
 
       {loading ? (
         <p>Loading events...</p>
@@ -230,6 +294,18 @@ function EventsManager() {
                 </button>
                 <button onClick={() => handleDelete(event._id)} className="btn-action btn-delete">
                   Delete
+                </button>
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/invoice-creator?clientName=${encodeURIComponent(
+                        event.clientName
+                      )}&eventDate=${encodeURIComponent(event.date)}`
+                    )
+                  }
+                  className="btn-action btn-edit"
+                >
+                  Create Invoice
                 </button>
               </div>
             </div>

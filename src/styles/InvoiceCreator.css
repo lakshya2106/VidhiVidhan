@@ -297,16 +297,6 @@ input.col-qty {
   font-size: 24px
 }
 
-/* Buttons */
-.btn {
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  background: transparent;
-  color: var(--text);
-  font-weight: 700
-}
-
 .btn-print {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.06);
