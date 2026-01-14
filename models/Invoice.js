@@ -33,6 +33,7 @@ const invoiceSchema = new mongoose.Schema(
     total: { type: Number, default: 0 },
     footerText: String,
     footerText2: String,
+    note: String,
     status: { type: String, enum: ['draft', 'sent', 'paid', 'overdue'], default: 'draft' },
     createdBy: { type: String, required: true },
   },

@@ -46,6 +46,7 @@ export async function createInvoice(req, res) {
       total: Number.isFinite(parseFloat(totals.total)) ? parseFloat(totals.total) : 0,
       footerText: invoice.footerText,
       footerText2: invoice.footerText2,
+      note: invoice.note,
       status: 'draft',
       createdBy: mobile || 'unknown',
     })
@@ -119,6 +120,7 @@ export async function updateInvoice(req, res) {
         total: parseFloat(totals.total),
         footerText: invoice.footerText,
         footerText2: invoice.footerText2,
+        note: invoice.note,
       },
       { new: true }
     )
