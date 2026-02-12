@@ -1,68 +1,30 @@
-// import mongoose from 'mongoose';
-
-// const adminSchema = new mongoose.Schema({
-//   mobile: { type: String, required: true, unique: true },
-//   password: { type: String, required: true },
-// })
-
-// export default mongoose.models.Admin || mongoose.model('Admin', adminSchema)
-
-
-import mongoose from "mongoose";
-
+import mongoose from "mongoose"
 const adminSchema = new mongoose.Schema(
   {
-    // 🔐 Auth
-    mobile: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      default: "admin",
-    },
+    // 🔐 Login
+    mobile: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, default: "admin" },
+    ownername: { type: String, default: "Nikhil Purbia" },
 
-    // 🏢 Business Profile (Editable)
-    adminName: {
-      type: String,
-      default: "Nikhil Purbia",
-    },
-    businessName: {
-      type: String,
-      default: "Vidhi Vidhan",
-    },
-    email: {
-      type: String,
-      default: "vidhividhan24@gmail.com",
-    },
-    businessMobile: {
-      type: String,
-      default: "9694804435",
-    },
-    address: {
-      type: String,
-      default: "97, Gulabeshwar Marg Inside Hathipol, Udaipur, Rajasthan 313001",
-    },
-    gstNumber: {
-      type: String,
-      default: "",
-    },
+    // 🏢 Company Info (Used in Invoice Creator)
+    companyname: { type: String, default: "" },
+    address1: { type: String, default: "" },
+    address2: { type: String, default: "" },
+    acc: { type: String, default: "" },       // Phone or account
+    iban: { type: String, default: "" },
+    bic: { type: String, default: "" },
 
-    // 🖼 Future Ready
-    logoUrl: {
-      type: String,
-      default: "",
-    },
+    gstNumber: { type: String, default: "" },
+    email: { type: String, default: "" },
+
+    defaultTaxRate: { type: Number, default: 18 },
+
+    footerText: { type: String, default: "Thank you for your business!" },
+    footerText2: { type: String, default: "" },
+
+    logoUrl: { type: String, default: "" }
   },
-  {
-    timestamps: true, // adds createdAt & updatedAt automatically
-  }
-);
-
-export default mongoose.models.Admin ||
-  mongoose.model("Admin", adminSchema);
+  { timestamps: true }
+)
+export default mongoose.model("Admin", adminSchema)
