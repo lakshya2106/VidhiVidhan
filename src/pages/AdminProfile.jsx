@@ -1,124 +1,38 @@
-// import { useContext, useEffect, useState } from 'react'
-// import { AuthContext } from '../auth/AuthContext'
-
-// function AdminProfile() {
-//   const { token } = useContext(AuthContext)
-//   const [profile, setProfile] = useState(null)
-//   const [error, setError] = useState('')
-
-//   const lastLogin = localStorage.getItem('vv_last_login')
-
-//   useEffect(() => {
-//     async function fetchProfile() {
-//       if (!token) return
-//       setError('')
-//       try {
-//         const res = await fetch('https://vidhividhan-2.onrender.com/api/admin/profile', {
-//           headers: { Authorization: `Bearer ${token}` },
-//         })
-//         if (!res.ok) {
-//           setError('Failed to load admin profile')
-//           return
-//         }
-//         const data = await res.json()
-//         setProfile(data)
-//       } catch (err) {
-//         console.error('Profile load error:', err)
-//         setError('Unable to load profile')
-//       }
-//     }
-
-//     fetchProfile()
-//   }, [token])
-
-//   return (
-//     <div className="dashboard">
-//       <div className="dashboard-header">
-//         <h1>Admin Profile</h1>
-//         <p>Account information and security</p>
-//       </div>
-
-//       <div className="stats-grid">
-//         <div className="stat-card">
-//           <div className="stat-icon">📱</div>
-//           <div className="stat-info">
-//             <h3>Mobile</h3>
-//             <p className="stat-value">{profile?.mobile || '—'}</p>
-//           </div>
-//         </div>
-//         <div className="stat-card">
-//           <div className="stat-icon">🛡️</div>
-//           <div className="stat-info">
-//             <h3>Role</h3>
-//             <p className="stat-value">{profile?.role || 'admin'}</p>
-//           </div>
-//         </div>
-//         <div className="stat-card">
-//           <div className="stat-icon">⏱️</div>
-//           <div className="stat-info">
-//             <h3>Last Login</h3>
-//             <p className="stat-value">{lastLogin || 'This session'}</p>
-//           </div>
-//         </div>
-//       </div>
-
-//       {error && <p style={{ color: '#f97373' }}>{error}</p>}
-
-//       <div className="recent-section">
-//         <h2>Security</h2>
-//         <p style={{ color: 'var(--muted)', marginBottom: 12 }}>
-//           For now, password changes are handled by the system administrator.
-//         </p>
-//         <ul style={{ color: 'var(--muted)', fontSize: 14, paddingLeft: 18 }}>
-//           <li>Keep your admin credentials private.</li>
-//           <li>Log out when using shared devices.</li>
-//           <li>Contact support to rotate your password.</li>
-//         </ul>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default AdminProfile
-
-
-
-
-import { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../auth/AuthContext'
-
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "../auth/AuthContext"
+import "../styles/AdminProfile.css"
 function AdminProfile() {
   const { token } = useContext(AuthContext)
 
   const [profile, setProfile] = useState(null)
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-
-  const lastLogin = localStorage.getItem('vv_last_login')
+  const [message, setMessage] = useState("")
+  const [error, setError] = useState("")
 
   useEffect(() => {
     async function fetchProfile() {
       if (!token) return
-      setError('')
+
       try {
         const res = await fetch(
-          'https://vidhividhan-2.onrender.com/api/admin/profile',
+          "https://vidhividhan-2.onrender.com/api/admin/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         )
 
         if (!res.ok) {
-          setError('Failed to load admin profile')
+          setError("Failed to load settings")
           return
         }
 
         const data = await res.json()
         setProfile(data)
       } catch (err) {
-        console.error('Profile load error:', err)
-        setError('Unable to load profile')
+        setError("Error loading profile")
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -132,16 +46,16 @@ function AdminProfile() {
   async function handleSave(e) {
     e.preventDefault()
     setSaving(true)
-    setError('')
-    setMessage('')
+    setError("")
+    setMessage("")
 
     try {
       const res = await fetch(
-        'https://vidhividhan-2.onrender.com/api/admin/profile',
+        "https://vidhividhan-2.onrender.com/api/admin/profile",
         {
-          method: 'PATCH',
+          method: "PATCH",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(profile),
@@ -149,127 +63,164 @@ function AdminProfile() {
       )
 
       if (!res.ok) {
-        setError('Failed to update profile')
-        setSaving(false)
+        setError("Failed to update settings")
         return
       }
 
       const updated = await res.json()
       setProfile(updated)
-      setMessage('Profile updated successfully ✅')
+      setMessage("Settings updated successfully ✅")
     } catch (err) {
-      console.error(err)
-      setError('Update failed')
+      setError("Update failed")
     }
 
     setSaving(false)
   }
 
-  if (!profile) return <p>Loading profile...</p>
+  if (loading) return <p>Loading settings...</p>
+  if (!profile) return <p>Error loading settings</p>
 
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h1>Admin Profile</h1>
-        <p>Account information and business settings</p>
+        <h1>Business Settings</h1>
+        <p>Manage company details used in invoices</p>
       </div>
 
-      {/* Top Stats */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon">📱</div>
-          <div className="stat-info">
-            <h3>Login Mobile</h3>
-            <p className="stat-value">{profile.mobile}</p>
+      {error && <p style={{ color: "#f97373" }}>{error}</p>}
+      {message && <p style={{ color: "lime" }}>{message}</p>}
+
+      <form onSubmit={handleSave} className="settings-form">
+
+        {/* Account Info */}
+        <section className="settings-section">
+          <h3>Account Info</h3>
+          <div className="form-row">
+            <input value={profile.mobile} disabled />
+            <input value={profile.role} disabled />
           </div>
-        </div>
+        </section>
 
-        <div className="stat-card">
-          <div className="stat-icon">🛡️</div>
-          <div className="stat-info">
-            <h3>Role</h3>
-            <p className="stat-value">{profile.role || 'admin'}</p>
-          </div>
-        </div>
+        {/* Company Info */}
+        <section className="settings-section">
+          <h3>Company Information</h3>
 
-        <div className="stat-card">
-          <div className="stat-icon">⏱️</div>
-          <div className="stat-info">
-            <h3>Last Login</h3>
-            <p className="stat-value">{lastLogin || 'This session'}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Editable Business Section */}
-      <div className="recent-section" style={{ marginTop: 30 }}>
-        <h2>Business Details</h2>
-
-        {error && <p style={{ color: '#f97373' }}>{error}</p>}
-        {message && <p style={{ color: 'lime' }}>{message}</p>}
-
-        <form onSubmit={handleSave} className="profile-form">
           <div className="form-row">
             <input
-              type="text"
-              name="adminName"
-              placeholder="Admin Name"
-              value={profile.adminName || ''}
+              name="ownername"
+              placeholder="Owner Name"
+              value={profile.ownername || ""}
               onChange={handleChange}
             />
 
             <input
-              type="text"
-              name="businessName"
-              placeholder="Business Name"
-              value={profile.businessName || ''}
+              name="companyname"
+              placeholder="Company Name"
+              value={profile.companyname || ""}
               onChange={handleChange}
             />
           </div>
 
           <div className="form-row">
             <input
-              type="email"
               name="email"
               placeholder="Business Email"
-              value={profile.email || ''}
+              value={profile.email || ""}
               onChange={handleChange}
             />
 
             <input
-              type="text"
-              name="businessMobile"
-              placeholder="Business Contact Number"
-              value={profile.businessMobile || ''}
+              name="gstNumber"
+              placeholder="GST Number"
+              value={profile.gstNumber || ""}
               onChange={handleChange}
             />
           </div>
 
-          <input
-            type="text"
-            name="gstNumber"
-            placeholder="GST Number"
-            value={profile.gstNumber || ''}
-            onChange={handleChange}
-          />
+          <div className="form-row">
+            <input
+              name="address1"
+              placeholder="Address Line 1"
+              value={profile.address1 || ""}
+              onChange={handleChange}
+            />
 
-          <textarea
-            name="address"
-            placeholder="Business Address"
-            rows="3"
-            value={profile.address || ''}
-            onChange={handleChange}
-          />
+            <input
+              name="address2"
+              placeholder="Address Line 2"
+              value={profile.address2 || ""}
+              onChange={handleChange}
+            />
+          </div>
+        </section>
 
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={saving}
-          >
-            {saving ? 'Saving...' : 'Save Changes'}
+        {/* Banking */}
+        <section className="settings-section">
+          <h3>Banking Details</h3>
+
+          <div className="form-row">
+            <input
+              name="acc"
+              placeholder="Phone / Account Number"
+              value={profile.acc || ""}
+              onChange={handleChange}
+            />
+
+            <input
+              name="iban"
+              placeholder="IBAN"
+              value={profile.iban || ""}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-row">
+            <input
+              name="bic"
+              placeholder="BIC / SWIFT Code"
+              value={profile.bic || ""}
+              onChange={handleChange}
+            />
+          </div>
+        </section>
+
+        {/* Invoice Defaults */}
+        <section className="settings-section">
+          <h3>Invoice Defaults</h3>
+
+          <div className="form-row">
+            <input
+              type="number"
+              name="defaultTaxRate"
+              placeholder="Default Tax Rate (%)"
+              value={profile.defaultTaxRate || 18}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-row">
+            <input
+              name="footerText"
+              placeholder="Footer Line 1"
+              value={profile.footerText || ""}
+              onChange={handleChange}
+            />
+
+            <input
+              name="footerText2"
+              placeholder="Footer Line 2"
+              value={profile.footerText2 || ""}
+              onChange={handleChange}
+            />
+          </div>
+        </section>
+
+        <div style={{ marginTop: 30 }}>
+          <button className="btn btn-primary" disabled={saving}>
+            {saving ? "Saving..." : "Save Settings"}
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   )
 }

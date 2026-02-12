@@ -1,0 +1,33 @@
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.settings-section {
+  background: rgba(255,255,255,0.02);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.settings-section h3 {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-row input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.02);
+  color: var(--text);
+}

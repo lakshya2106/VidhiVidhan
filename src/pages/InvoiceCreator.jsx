@@ -24,7 +24,7 @@ function InvoiceCreator() {
     companyLogo: companyLogo,
     bgimage: bgimage,
     sender: {
-      name: 'Vidhi Vidhan',
+      companyname: 'Vidhi Vidhan',
       address1: '',
       address2: '',
       acc: '',
@@ -45,79 +45,118 @@ function InvoiceCreator() {
     note: '',
   })
 
-useEffect(() => {
-  if (!token || typeof token !== 'string' || token.length < 10) return
+// useEffect(() => {
+//   async function fetchAdminInfo() {
+//     if (!token) return
 
-  const params = new URLSearchParams(location.search)
-  const id = params.get('id')
-  const clientName = params.get('clientName')
-  const eventDate = params.get('eventDate')
+//     try {
+//       const res = await fetch(
+//         "https://vidhividhan-2.onrender.com/api/admin/profile",
+//         {
+//           headers: { Authorization: `Bearer ${token}` },
+//         }
+//       )
 
-  async function fetchPreviewNumber() {
-    try {
-      const res = await fetch('https://vidhividhan-2.onrender.com/api/invoices/next-number', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+//       if (!res.ok) return
 
-      if (!res.ok) {
-        const text = await res.text()
-        console.error('Preview fetch failed:', res.status, text)
-        return
+//       const admin = await res.json()
+
+//       setInvoice((prev) => ({
+//         ...prev,
+//         sender: {
+//           companyname: admin.companyname,
+//           address1: admin.address1,
+//           address2: admin.address2,
+//           acc: admin.acc,
+//           iban: admin.iban,
+//           bic: admin.bic,
+//         },
+//         taxRate: admin.defaultTaxRate || 18,
+//         footerText: admin.footerText || prev.footerText,
+//         footerText2: admin.footerText2 || prev.footerText2,
+//       }))
+//     } catch (err) {
+//       console.error("Failed to fetch admin info:", err)
+//     }
+//   }
+
+//   fetchAdminInfo()
+// }, [token])
+
+
+  useEffect(() => {
+    if (!token || typeof token !== 'string' || token.length < 10) return
+
+    const params = new URLSearchParams(location.search)
+    const id = params.get('id')
+    const clientName = params.get('clientName')
+    const eventDate = params.get('eventDate')
+
+    async function fetchPreviewNumber() {
+      try {
+        const res = await fetch('https://vidhividhan-2.onrender.com/api/invoices/next-number', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        if (!res.ok) {
+          const text = await res.text()
+          console.error('Preview fetch failed:', res.status, text)
+          return
+        }
+
+        const data = await res.json()
+        setInvoice(prev => ({
+          ...prev,
+          invoiceNumber: data.invoiceNumber,
+        }))
+      } catch (err) {
+        console.error('Failed to fetch invoice preview number', err)
       }
-
-      const data = await res.json()
-      setInvoice(prev => ({
-        ...prev,
-        invoiceNumber: data.invoiceNumber,
-      }))
-    } catch (err) {
-      console.error('Failed to fetch invoice preview number', err)
     }
-  }
 
-  async function fetchInvoiceById(invoiceId) {
-    try {
-      const res = await fetch(`https://vidhividhan-2.onrender.com/api/invoices/${invoiceId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      if (!res.ok) {
-        console.error('Failed to fetch invoice:', res.status)
-        return
+    async function fetchInvoiceById(invoiceId) {
+      try {
+        const res = await fetch(`https://vidhividhan-2.onrender.com/api/invoices/${invoiceId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        if (!res.ok) {
+          console.error('Failed to fetch invoice:', res.status)
+          return
+        }
+        const data = await res.json()
+        // Ensure date is in YYYY-MM-DD
+        const createdDate = data.createdDate ? data.createdDate.split('T')[0] : new Date().toISOString().split('T')[0]
+        setInvoice({
+          ...data,
+          createdDate,
+          companyLogo,
+          bgimage,
+        })
+        setEditingId(data._id || invoiceId)
+      } catch (err) {
+        console.error('Error fetching invoice by id:', err)
       }
-      const data = await res.json()
-      // Ensure date is in YYYY-MM-DD
-      const createdDate = data.createdDate ? data.createdDate.split('T')[0] : new Date().toISOString().split('T')[0]
-      setInvoice({
-        ...data,
-        createdDate,
-        companyLogo,
-        bgimage,
-      })
-      setEditingId(data._id || invoiceId)
-    } catch (err) {
-      console.error('Error fetching invoice by id:', err)
     }
-  }
 
-  if (id) {
-    fetchInvoiceById(id)
-  } else {
-    fetchPreviewNumber()
-    // Prefill some fields when coming from Events page
-    if (clientName || eventDate) {
-      setInvoice(prev => ({
-        ...prev,
-        receiver: {
-          ...prev.receiver,
-          name: clientName || prev.receiver.name,
-          events: eventDate ? [eventDate.split('T')[0]] : prev.receiver.events,
-        },
-      }))
+    if (id) {
+      fetchInvoiceById(id)
+    } else {
+      fetchPreviewNumber()
+      // Prefill some fields when coming from Events page
+      if (clientName || eventDate) {
+        setInvoice(prev => ({
+          ...prev,
+          receiver: {
+            ...prev.receiver,
+            name: clientName || prev.receiver.name,
+            events: eventDate ? [eventDate.split('T')[0]] : prev.receiver.events,
+          },
+        }))
+      }
     }
-  }
-}, [token, location.search])
+  }, [token, location.search])
 
   const handleSenderChange = (field, value) => {
     setInvoice({
@@ -329,7 +368,7 @@ useEffect(() => {
               <input
                 type="text"
                 placeholder="Your Company Name"
-                value={invoice.sender.name}
+                value={invoice.sender.companyname}
                 readOnly
               />
             </div>
