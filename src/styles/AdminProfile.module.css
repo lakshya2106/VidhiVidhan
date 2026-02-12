@@ -1,0 +1,58 @@
+.container {
+  padding: 20px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin-bottom: 5px;
+}
+
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.section h3 {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.formRow {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.formRow input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text);
+}
+
+.error {
+  color: #f97373;
+  margin-bottom: 10px;
+}
+
+.success {
+  color: lime;
+  margin-bottom: 10px;
+}
+
+.saveWrapper {
+  margin-top: 10px;
+}

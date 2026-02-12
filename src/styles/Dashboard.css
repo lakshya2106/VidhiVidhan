@@ -1,19 +1,33 @@
-.dashboard{animation:fadeIn .32s ease-in}
+.dashboard {
+  animation: fadeIn .32s ease-in
+}
 
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.dashboard-header{margin-bottom:18px}
-.dashboard-header h1{font-size:22px;margin-bottom:6px;color:var(--text)}
-.dashboard-header p{color:var(--muted);font-size:14px}
+.dashboard-header {
+  margin-bottom: 18px
+}
+
+.dashboard-header h1 {
+  font-size: 22px;
+  margin-bottom: 6px;
+  color: var(--text)
+}
+
+.dashboard-header p {
+  color: var(--muted);
+  font-size: 14px
+}
 
 .stats-grid {
   display: grid;
@@ -23,52 +37,183 @@
 }
 
 
-.stat-card{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.005));padding:18px;border-radius:12px;box-shadow:var(--shadow);display:flex;gap:14px;transition:transform .18s ease}
-.stat-card:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(2,6,23,0.6)}
+.stat-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 14px;
+  transition: transform .18s ease
+}
 
-.stat-icon{font-size:28px;min-width:48px;text-align:center}
-.stat-info h3{font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:700}
-.stat-value{font-size:20px;font-weight:800;color:var(--accent)}
+.stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 48px rgba(2, 6, 23, 0.6)
+}
 
-.recent-section{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.005));padding:18px;border-radius:12px;box-shadow:var(--shadow)}
-.recent-section h2{font-size:16px;color:var(--text);margin-bottom:14px}
+.stat-icon {
+  font-size: 28px;
+  min-width: 48px;
+  text-align: center
+}
+
+.stat-info h3 {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 700
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent)
+}
+
+.recent-section {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow)
+}
+
+.recent-section h2 {
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 14px
+}
 
 .events-table {
   overflow-x: auto;
 }
 
 
-.table-header{display:grid;grid-template-columns:2fr 1fr 1.5fr 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-weight:700;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:0.6px}
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px
+}
 
-.table-row{display:grid;grid-template-columns:2fr 1fr 1.5fr 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.02);align-items:center;transition:transform .12s ease}
-.table-row:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  align-items: center;
+  transition: transform .12s ease
+}
+
+.table-row:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow)
+}
 
 .table-row:last-child {
   border-bottom: none;
 }
 
-.status{display:inline-block;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px}
-.status.upcoming{background:linear-gradient(90deg,rgba(124,92,255,0.12),rgba(0,194,168,0.04));color:var(--text)}
-.status.in-progress{background:linear-gradient(90deg,rgba(255,200,120,0.12),rgba(255,160,80,0.04));color:var(--text)}
-.status.completed{background:linear-gradient(90deg,rgba(0,200,130,0.12),rgba(0,160,120,0.04));color:var(--text)}
+.status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px
+}
+
+.status.upcoming {
+  background: linear-gradient(90deg, rgba(124, 92, 255, 0.12), rgba(0, 194, 168, 0.04));
+  color: var(--text)
+}
+
+.status.in-progress {
+  background: linear-gradient(90deg, rgba(255, 200, 120, 0.12), rgba(255, 160, 80, 0.04));
+  color: var(--text)
+}
+
+.status.completed {
+  background: linear-gradient(90deg, rgba(0, 200, 130, 0.12), rgba(0, 160, 120, 0.04));
+  color: var(--text)
+}
 
 @media (max-width: 900px) {
-  .dashboard-header h1{font-size:20px}
-  .stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-  .stat-card{padding:14px;gap:12px}
-  .stat-icon{font-size:24px}
-  .stat-value{font-size:18px}
-  .table-header,.table-row{grid-template-columns:1fr}
+  .dashboard-header h1 {
+    font-size: 20px
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px
+  }
+
+  .stat-card {
+    padding: 14px;
+    gap: 12px
+  }
+
+  .stat-icon {
+    font-size: 24px
+  }
+
+  .stat-value {
+    font-size: 18px
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 1fr
+  }
 }
 
 @media (max-width: 640px) {
-  .dashboard-header h1{font-size:18px}
-  .stats-grid{grid-template-columns:1fr;gap:10px}
-  .stat-card{padding:12px;gap:10px}
-  .stat-info h3{font-size:12px}
-  .stat-value{font-size:16px}
-  .recent-section{padding:12px}
-  .recent-section h2{font-size:14px;margin-bottom:10px}
-  .table-header{display:none}
-  .table-row{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02);margin-bottom:8px}
+  .dashboard-header h1 {
+    font-size: 18px
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 10px
+  }
+
+  .stat-card {
+    padding: 12px;
+    gap: 10px
+  }
+
+  .stat-info h3 {
+    font-size: 12px
+  }
+
+  .stat-value {
+    font-size: 16px
+  }
+
+  .recent-section {
+    padding: 12px
+  }
+
+  .recent-section h2 {
+    font-size: 14px;
+    margin-bottom: 10px
+  }
+
+  .table-header {
+    display: none
+  }
+
+  .table-row {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    margin-bottom: 8px
+  }
 }
