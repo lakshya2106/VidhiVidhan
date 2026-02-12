@@ -305,7 +305,8 @@ useEffect(() => {
 
             <div className="form-group">
               <label>Created Date</label>
-              <input type="date" value={invoice.createdDate} readOnly />
+              {/* <input type="date" value={invoice.createdDate} readOnly /> */}
+              <input type="date" value={invoice.createdDate}  />
             </div>
 
             <div className="form-group">
