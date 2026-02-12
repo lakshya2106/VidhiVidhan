@@ -54,9 +54,45 @@ export async function login(req, res) {
   }
 }
 
-export function profile(req, res) {
-  res.json({
-    mobile: req.user.mobile,
-    role: req.user.role
-  })
+export async function profile(req, res) {
+  try {
+    if (!req.app.locals.dbConnected) {
+      return res.json({
+        mobile: req.user.mobile,
+        role: req.user.role,
+      })
+    }
+
+    const admin = await Admin.findOne({ mobile: req.user.mobile }).select(
+      "-password"
+    )
+
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" })
+    }
+
+    res.json(admin)
+  } catch (err) {
+    console.error("Profile error:", err)
+    res.status(500).json({ message: "Failed to load profile" })
+  }
+}
+
+export async function updateProfile(req, res) {
+  try {
+    if (!req.app.locals.dbConnected) {
+      return res.status(400).json({ message: "Database not connected" })
+    }
+
+    const updated = await Admin.findOneAndUpdate(
+      { mobile: req.user.mobile }, // single admin match
+      req.body,
+      { new: true }
+    ).select("-password")
+
+    res.json(updated)
+  } catch (err) {
+    console.error("Update error:", err)
+    res.status(500).json({ message: "Failed to update profile" })
+  }
 }
