@@ -306,7 +306,7 @@ useEffect(() => {
             <div className="form-group">
               <label>Created Date</label>
               {/* <input type="date" value={invoice.createdDate} readOnly /> */}
-              <input type="date" value={invoice.createdDate}  />
+              <input type="date" value={invoice.createdDate} onChange={(e) => setInvoice({ ...invoice, createdDate: e.target.value })} />
             </div>
 
             <div className="form-group">
