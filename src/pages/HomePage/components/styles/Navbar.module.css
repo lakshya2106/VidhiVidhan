@@ -94,3 +94,36 @@
   letter-spacing: 2px;
   box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
 }
+.logoWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressRing {
+  position: absolute;
+  transform: rotate(-90deg);
+}
+
+.logoContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.glow {
+  animation: glowPulse 1s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    text-shadow: 0 0 5px gold;
+  }
+  50% {
+    text-shadow: 0 0 25px gold, 0 0 50px orange;
+  }
+  100% {
+    text-shadow: 0 0 5px gold;
+  }
+}
