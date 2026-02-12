@@ -24,7 +24,7 @@ function InvoiceCreator() {
     companyLogo: companyLogo,
     bgimage: bgimage,
     sender: {
-      companyname: 'Vidhi Vidhan',
+      companyname: '',
       address1: '',
       address2: '',
       acc: '',
@@ -45,43 +45,43 @@ function InvoiceCreator() {
     note: '',
   })
 
-// useEffect(() => {
-//   async function fetchAdminInfo() {
-//     if (!token) return
+useEffect(() => {
+  async function fetchAdminInfo() {
+    if (!token) return
 
-//     try {
-//       const res = await fetch(
-//         "https://vidhividhan-2.onrender.com/api/admin/profile",
-//         {
-//           headers: { Authorization: `Bearer ${token}` },
-//         }
-//       )
+    try {
+      const res = await fetch(
+        "https://vidhividhan-2.onrender.com/api/admin/profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
 
-//       if (!res.ok) return
+      if (!res.ok) return
 
-//       const admin = await res.json()
+      const admin = await res.json()
 
-//       setInvoice((prev) => ({
-//         ...prev,
-//         sender: {
-//           companyname: admin.companyname,
-//           address1: admin.address1,
-//           address2: admin.address2,
-//           acc: admin.acc,
-//           iban: admin.iban,
-//           bic: admin.bic,
-//         },
-//         taxRate: admin.defaultTaxRate || 18,
-//         footerText: admin.footerText || prev.footerText,
-//         footerText2: admin.footerText2 || prev.footerText2,
-//       }))
-//     } catch (err) {
-//       console.error("Failed to fetch admin info:", err)
-//     }
-//   }
+      setInvoice((prev) => ({
+        ...prev,
+        sender: {
+          companyname: admin.companyname,
+          address1: admin.address1,
+          address2: admin.address2,
+          acc: admin.acc,
+          iban: admin.iban,
+          bic: admin.bic,
+        },
+        taxRate: admin.defaultTaxRate || 18,
+        footerText: admin.footerText || prev.footerText,
+        footerText2: admin.footerText2 || prev.footerText2,
+      }))
+    } catch (err) {
+      console.error("Failed to fetch admin info:", err)
+    }
+  }
 
-//   fetchAdminInfo()
-// }, [token])
+  fetchAdminInfo()
+}, [token])
 
 
   useEffect(() => {
