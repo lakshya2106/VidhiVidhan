@@ -5,13 +5,13 @@ const adminSchema = new mongoose.Schema(
     mobile: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, default: "admin" },
-    ownername: { type: String, default: "Nikhil Purbia" },
+    ownername: { type: String, default: "" },
 
     // 🏢 Company Info (Used in Invoice Creator)
     companyname: { type: String, default: "" },
     address1: { type: String, default: "" },
     address2: { type: String, default: "" },
-    acc: { type: String, default: "" },       // Phone or account
+    acc: { type: String, default: "" },      
     iban: { type: String, default: "" },
     bic: { type: String, default: "" },
 
