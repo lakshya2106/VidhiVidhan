@@ -34,7 +34,7 @@ export default function Login() {
       } catch {
         // ignore storage errors
       }
-      navigate('/')
+      navigate('/admin')
     } catch (e) {
       setError('Unable to reach server')
     }

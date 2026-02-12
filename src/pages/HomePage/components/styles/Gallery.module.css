@@ -1,0 +1,130 @@
+.gallery {
+  padding: 120px 10%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(255, 215, 0, 0.01)
+  );
+  position: relative;
+}
+
+.galleryHeader {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.galleryHeader h2 {
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.galleryHeader p {
+  font-size: 18px;
+  color: #888;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.galleryItem {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  aspect-ratio: 1;
+  cursor: pointer;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.galleryItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  filter: brightness(0.8);
+}
+
+.galleryItem:hover img {
+  transform: scale(1.1);
+  filter: brightness(1);
+}
+
+.galleryOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.85),
+    rgba(255, 215, 0, 0.15)
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
+
+.galleryItem:hover .galleryOverlay {
+  opacity: 1;
+}
+
+.galleryOverlay h4 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.galleryOverlay button {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border: none;
+  color: #000;
+  font-weight: 700;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.galleryModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modalContent {
+  position: relative;
+  max-width: 90%;
+  max-height: 90vh;
+}
+
+.modalContent img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.modalClose {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #ffd700;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.modalContent p {
+  text-align: center;
+  margin-top: 20px;
+  color: #ccc;
+}

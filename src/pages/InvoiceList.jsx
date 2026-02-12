@@ -140,7 +140,7 @@ function InvoiceList() {
           >
             ⬇ Export CSV
           </button>
-          <Link to="/invoice-creator" className="btn btn-primary">
+          <Link to="/admin/invoice-creator" className="btn btn-primary">
             + Create Invoice
           </Link>
         </div>
@@ -192,7 +192,7 @@ function InvoiceList() {
       {loading ? (
         <p>Loading invoices...</p>
       ) : filteredInvoices.length === 0 ? (
-        <p>No invoices found. <Link to="/invoice-creator">Create one</Link></p>
+        <p>No invoices found. <Link to="/admin/invoice-creator">Create one</Link></p>
       ) : (
         <div className="invoices-table">
           <div className="table-header">
@@ -227,7 +227,7 @@ function InvoiceList() {
               </div>
               <div className="col-date" data-label="Date">{new Date(invoice.createdDate).toLocaleDateString()}</div>
               <div className="col-actions" data-label="Actions">
-                <Link to={`/invoice-creator?id=${invoice._id}`} className="btn-action btn-edit">
+                <Link to={`/admin/invoice-creator?id=${invoice._id}`} className="btn-action btn-edit">
                   Edit
                 </Link>
                 <button onClick={() => handleDelete(invoice._id)} className="btn-action btn-delete">

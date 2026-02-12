@@ -1,0 +1,128 @@
+.cta {
+  padding: 120px 10%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 215, 0, 0.01),
+    rgba(255, 215, 0, 0.02)
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaBlurTop {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.25), transparent);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ctaBlurBottom {
+  position: absolute;
+  bottom: -50%;
+  right: 0;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ctaContent {
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ctaBadge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ffd700;
+  margin-bottom: 30px;
+}
+
+.ctaContent h2 {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #fff, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ctaContent p {
+  font-size: 18px;
+  color: #bbb;
+  line-height: 1.8;
+  margin-bottom: 50px;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary {
+  padding: 16px 40px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border: none;
+  color: #000;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.ctaSecondary {
+  padding: 16px 40px;
+  background: none;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cta {
+    padding: 80px 6%;
+  }
+
+  .ctaContent h2 {
+    font-size: 36px;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+  }
+}

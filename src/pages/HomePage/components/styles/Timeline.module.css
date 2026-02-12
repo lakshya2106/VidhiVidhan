@@ -1,0 +1,94 @@
+.timeline {
+  padding: 120px 10%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 215, 0, 0.01),
+    transparent
+  );
+  position: relative;
+}
+
+.timelineHeader {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.timelineHeader h2 {
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.timelineHeader p {
+  font-size: 18px;
+  color: #888;
+}
+
+.timelineContainer {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.timelineLineWrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  top: 0;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.timelineLine {
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, #ffd700, rgba(255, 215, 0, 0.3));
+}
+
+.timelineSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  position: relative;
+  z-index: 10;
+}
+
+.timelineStep {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.stepCircle {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+  color: #000;
+}
+
+.stepContent {
+  background: rgba(255, 215, 0, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.stepContent h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.stepContent p {
+  font-size: 14px;
+  color: #999;
+}

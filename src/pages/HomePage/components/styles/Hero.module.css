@@ -1,0 +1,144 @@
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.15), transparent);
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.heroParallax {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  background: linear-gradient(
+      135deg,
+      rgba(255, 215, 0, 0.08),
+      rgba(255, 215, 0, 0.02)
+    ),
+    linear-gradient(180deg, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.85)),
+    url("/hero.jpg") center/cover no-repeat;
+  z-index: -1;
+  filter: brightness(0.75) contrast(1.05);
+}
+
+.heroContent {
+  text-align: center;
+  z-index: 10;
+  max-width: 800px;
+}
+
+.heroSubtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+.accentBar {
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, #ffd700, #ffed4e);
+  display: block;
+}
+
+.heroTitle {
+  font-size: 100px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 20px 0;
+  background: linear-gradient(135deg, #ffffff, #ffd700, #ffffff);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroDescription {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ccc;
+  margin: 20px 0;
+  line-height: 1.5;
+}
+
+.heroSubtext {
+  font-size: 16px;
+  font-weight: 500;
+  color: #888;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 30px 0;
+}
+
+.heroButton {
+  padding: 16px 40px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border: none;
+  color: #000;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.buttonArrow {
+  font-size: 18px;
+}
+
+.heroScrollIndicator {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.scrollDot {
+  width: 8px;
+  height: 32px;
+  border: 2px solid #ffd700;
+  border-radius: 10px;
+  position: relative;
+}

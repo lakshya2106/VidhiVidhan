@@ -1,0 +1,98 @@
+.about {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 215, 0, 0.05),
+    transparent
+  );
+  position: relative;
+  overflow: hidden;
+  padding: 120px 10%;
+}
+
+.aboutContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+  position: relative;
+  z-index: 10;
+}
+
+.sectionBadge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+.aboutContent h2 {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 20px 0;
+  color: #fff;
+}
+
+.aboutContent p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #bbb;
+  margin: 20px 0;
+}
+
+.aboutStats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.statCard {
+  background: rgba(255, 215, 0, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+.statCard h3 {
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statCard p {
+  font-size: 14px;
+  color: #999;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .aboutContainer {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 80px 6%;
+  }
+
+  .aboutContent h2 {
+    font-size: 32px;
+  }
+}

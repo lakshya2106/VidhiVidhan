@@ -43,7 +43,7 @@ function Sidebar() {
       </div>
       <nav className="sidebar-nav">
         <NavLink
-          to="/"
+          to="/admin"
           end
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
@@ -51,42 +51,42 @@ function Sidebar() {
           <span>Dashboard</span>
         </NavLink>
         <NavLink
-          to="/invoice-creator"
+          to="/admin/invoice-creator"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           <span className="icon">📄</span>
           <span>Create Invoice</span>
         </NavLink>
         <NavLink
-          to="/invoices"
+          to="/admin/invoices"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           <span className="icon">📋</span>
           <span>Invoice List</span>
         </NavLink>
         <NavLink
-          to="/events"
+          to="/admin/events"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           <span className="icon">🎉</span>
           <span>Events Manager</span>
         </NavLink>
         <NavLink
-          to="/clients"
+          to="/admin/clients"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           <span className="icon">👥</span>
           <span>Clients</span>
         </NavLink>
         <NavLink
-          to="/profile"
+          to="/admin/profile"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           <span className="icon">👤</span>
           <span>Admin Profile</span>
         </NavLink>
         <NavLink
-          to="/activity-log"
+          to="/admin/activity-log"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           <span className="icon">📜</span>
