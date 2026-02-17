@@ -8,7 +8,7 @@ const adminSchema = new mongoose.Schema(
     ownername: { type: String, default: "" },
 
     // 🏢 Company Info (Used in Invoice Creator)
-    companyname: { type: String, default: "" },
+    name: { type: String, default: "" },
     address1: { type: String, default: "" },
     address2: { type: String, default: "" },
     acc: { type: String, default: "" },      

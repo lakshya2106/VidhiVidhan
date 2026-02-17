@@ -7,7 +7,5 @@ export async function getNextInvoiceNumber() {
     { new: true, upsert: true }
   )
 
-  // Format however you want
-  // INV-0001, INV-0002 ...
   return `INV-${String(counter.seq).padStart(4, '0')}`
 }

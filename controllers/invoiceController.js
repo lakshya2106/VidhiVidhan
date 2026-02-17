@@ -25,14 +25,29 @@ export async function getNextInvoicePreview(req, res) {
 
 export async function createInvoice(req, res) {
   const { invoice, totals } = req.body
-  const mobile = req.user && req.user.mobile
+  const mobile = req.user?.mobile
 
   if (!invoice || !totals) {
     return res.status(400).json({ message: 'Missing invoice or totals in request body' })
   }
 
+  // ✅ Manual validation BEFORE generating number
+  if (!invoice.sender?.name) {
+    return res.status(400).json({ message: 'Sender name is required' })
+  }
+
+  if (!invoice.receiver?.name) {
+    return res.status(400).json({ message: 'Receiver name is required' })
+  }
+
+  if (!invoice.items?.length) {
+    return res.status(400).json({ message: 'At least one item required' })
+  }
+
   try {
-     const invoiceNumber = await getNextInvoiceNumber()
+    // ✅ Generate number ONLY after validation
+    const invoiceNumber = await getNextInvoiceNumber()
+
     const newInvoice = await Invoice.create({
       invoiceNumber,
       createdDate: invoice.createdDate,
@@ -41,29 +56,26 @@ export async function createInvoice(req, res) {
       receiver: invoice.receiver,
       items: invoice.items,
       taxRate: invoice.taxRate,
-      subTotal: Number.isFinite(parseFloat(totals.subTotal)) ? parseFloat(totals.subTotal) : 0,
-      taxAmount: Number.isFinite(parseFloat(totals.taxAmount)) ? parseFloat(totals.taxAmount) : 0,
-      total: Number.isFinite(parseFloat(totals.total)) ? parseFloat(totals.total) : 0,
+      subTotal: parseFloat(totals.subTotal) || 0,
+      taxAmount: parseFloat(totals.taxAmount) || 0,
+      total: parseFloat(totals.total) || 0,
       footerText: invoice.footerText,
       footerText2: invoice.footerText2,
       note: invoice.note,
       status: 'draft',
       createdBy: mobile || 'unknown',
     })
+
     res.status(201).json(newInvoice)
+
   } catch (err) {
     console.error('Create invoice error:', err)
-    // Duplicate key (unique invoiceNumber)
-    if (err && err.code === 11000) {
+
+    if (err.code === 11000) {
       return res.status(409).json({ message: 'Invoice number already exists' })
     }
-    // Mongoose validation errors
-    if (err && err.name === 'ValidationError') {
-      const details = Object.values(err.errors || {}).map((e) => e.message)
-      return res.status(400).json({ message: 'Validation error', details })
-    }
 
-    res.status(500).json({ message: err.message || 'Error creating invoice' })
+    res.status(500).json({ message: 'Error creating invoice' })
   }
 }
 
@@ -109,7 +121,7 @@ export async function updateInvoice(req, res) {
     const updated = await Invoice.findOneAndUpdate(
       { _id: id, createdBy: mobile },
       {
-        invoiceNumber: invoice.invoiceNumber,
+        // invoiceNumber: invoice.invoiceNumber,
         dueDate: invoice.dueDate,
         sender: invoice.sender,
         receiver: invoice.receiver,
