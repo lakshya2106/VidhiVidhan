@@ -434,7 +434,7 @@ useEffect(() => {
               <label>Company Name / Client Name</label>
               <input
                 type="text"
-                placeholder="Client Company Name"
+                placeholder="Client Name"
                 value={invoice.receiver.name}
                 onChange={(e) => handleReceiverChange('name', e.target.value)}
               />

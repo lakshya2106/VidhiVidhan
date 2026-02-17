@@ -116,9 +116,9 @@ function AdminProfile() {
               onChange={handleChange}
             />
             <input
-              name="companyname"
+              name="name"
               placeholder="Company Name"
-              value={profile.companyname || ""}
+              value={profile.name || ""}
               onChange={handleChange}
             />
           </div>
