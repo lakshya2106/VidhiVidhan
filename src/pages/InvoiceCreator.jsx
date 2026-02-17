@@ -289,7 +289,7 @@ useEffect(() => {
         entity: 'invoice',
         details: saved.invoiceNumber,
       })
-      navigate('/invoices')
+      navigate('/admin/invoices')
     } catch (err) {
       console.error('Save invoice error:', err)
       alert('Error saving invoice: ' + (err.message || 'Unknown error'))
