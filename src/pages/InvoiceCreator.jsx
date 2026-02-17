@@ -24,7 +24,7 @@ function InvoiceCreator() {
     companyLogo: companyLogo,
     bgimage: bgimage,
     sender: {
-      companyname: '',
+      name: '',
       address1: '',
       address2: '',
       acc: '',
@@ -64,7 +64,7 @@ useEffect(() => {
       setInvoice((prev) => ({
         ...prev,
         sender: {
-          companyname: admin.companyname,
+          name: admin.name,
           address1: admin.address1,
           address2: admin.address2,
           acc: admin.acc,
@@ -368,7 +368,7 @@ useEffect(() => {
               <input
                 type="text"
                 placeholder="Your Company Name"
-                value={invoice.sender.companyname}
+                value={invoice.sender.name}
                 readOnly
               />
             </div>
