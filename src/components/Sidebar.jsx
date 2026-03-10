@@ -4,110 +4,94 @@ import { useContext, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { AuthContext } from '../auth/AuthContext'
 
-function Sidebar() {
+const NAV = [
+  { to: '/admin',                end: true,  icon: '📊', label: 'Dashboard' },
+  { to: '/admin/events',                     icon: '📅', label: 'Events' },
+  { to: '/admin/invoice-creator',             icon: '✏️', label: 'Create Invoice' },
+  { to: '/admin/invoices',                    icon: '📄', label: 'Invoices' },
+  { to: '/admin/clients',                     icon: '👥', label: 'Clients' },
+  { to: '/admin/activity',                    icon: '🕐', label: 'Activity Log' },
+  { to: '/admin/profile',                     icon: '⚙️', label: 'Profile' },
+]
+
+export default function Sidebar() {
   const navigate = useNavigate()
   const { setToken } = useContext(AuthContext)
-
   const [showConfirm, setShowConfirm] = useState(false)
-  const [showToast, setShowToast] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-
-  function handleLogout() {
-    // open confirmation modal
-    setShowConfirm(true)
-  }
+  const [showToast,   setShowToast]   = useState(false)
+  const [mobileOpen,  setMobileOpen]  = useState(false)
 
   function confirmLogout() {
     setShowConfirm(false)
     setToken(null)
     setMobileOpen(false)
     navigate('/login')
-    // show toast briefly
     setShowToast(true)
     setTimeout(() => setShowToast(false), 3000)
   }
 
-  function cancelLogout() {
-    setShowConfirm(false)
-  }
-
-  function toggleMobile() {
-    setMobileOpen((s) => !s)
-  }
-
   return (
-    <aside className={`sidebar ${mobileOpen ? 'mobile-open' : ''}`}>
-      <div className="sidebar-header">
-        <h1>Vidhi Vidhan</h1>
-        <p className="subtitle">Event Management</p>
-      </div>
-      <nav className="sidebar-nav">
-        <NavLink
-          to="/admin"
-          end
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-        >
-          <span className="icon">📊</span>
-          <span>Dashboard</span>
-        </NavLink>
-        <NavLink
-          to="/admin/invoice-creator"
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-        >
-          <span className="icon">📄</span>
-          <span>Create Invoice</span>
-        </NavLink>
-        <NavLink
-          to="/admin/invoices"
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-        >
-          <span className="icon">📋</span>
-          <span>Invoice List</span>
-        </NavLink>
-        <NavLink
-          to="/admin/events"
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-        >
-          <span className="icon">🎉</span>
-          <span>Events Manager</span>
-        </NavLink>
-        <NavLink
-          to="/admin/clients"
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-        >
-          <span className="icon">👥</span>
-          <span>Clients</span>
-        </NavLink>
-        <NavLink
-          to="/admin/profile"
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-        >
-          <span className="icon">👤</span>
-          <span>Admin Profile</span>
-        </NavLink>
-        <NavLink
-          to="/admin/activity-log"
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-        >
-          <span className="icon">📜</span>
-          <span>Activity Log</span>
-        </NavLink>
-      </nav>
-      <div className="sidebar-footer">
-        <button className="logout-button" onClick={handleLogout} aria-label="Logout">
-          <span className="icon">🔒</span>
-          <span>Logout</span>
-        </button>
-      </div>
+    <>
+      {/* Mobile hamburger */}
+      <button className="mobile-hamburger" onClick={() => setMobileOpen(s => !s)}>
+        {mobileOpen ? '✕' : '☰'}
+      </button>
 
+      {mobileOpen && <div className="mobile-backdrop" onClick={() => setMobileOpen(false)} />}
+
+      <aside className={`sidebar ${mobileOpen ? 'mobile-open' : ''}`}>
+        {/* Header */}
+        <div className="sidebar-header">
+          <div className="sidebar-logo-row">
+            <div className="sidebar-logo-icon">✦</div>
+            <div>
+              <h1>Vidhi Vidhan</h1>
+              <p className="subtitle">Event Management</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Nav */}
+        <nav className="sidebar-nav">
+          <div className="nav-section-label">Navigation</div>
+          {NAV.map(item => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+              onClick={() => setMobileOpen(false)}
+            >
+              <span className="icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Footer */}
+        <div className="sidebar-footer">
+          <div className="sidebar-admin-row">
+            <div className="admin-avatar">👑</div>
+            <div>
+              <div className="admin-name">Admin</div>
+              <div className="admin-role">Super Admin</div>
+            </div>
+          </div>
+          <button className="logout-button" onClick={() => setShowConfirm(true)}>
+            <span className="icon">🚪</span> Logout
+          </button>
+        </div>
+      </aside>
+
+      {/* Confirm Modal */}
       {showConfirm && createPortal(
         <div className="confirm-overlay">
           <div className="confirm-modal">
-            <h3>Confirm Logout</h3>
-            <p>Are you sure you want to log out?</p>
+            <h3>Logout?</h3>
+            <p>You will be signed out of your admin session. You can log back in anytime.</p>
             <div className="confirm-actions">
-              <button className="btn btn-primary" onClick={confirmLogout}>Yes, log out</button>
-              <button className="btn btn-reset" onClick={cancelLogout}>Cancel</button>
+              <button className="btn-cancel" onClick={() => setShowConfirm(false)}>Cancel</button>
+              <button className="btn-confirm" onClick={confirmLogout}>Yes, Logout</button>
             </div>
           </div>
         </div>,
@@ -115,19 +99,9 @@ function Sidebar() {
       )}
 
       {showToast && createPortal(
-        <div className="logout-toast">Logged out</div>,
+        <div className="logout-toast">✓ Logged out successfully</div>,
         document.body
       )}
-
-      {createPortal(
-        <>
-          <button className="mobile-hamburger" onClick={toggleMobile} aria-label="Open menu">☰</button>
-          {mobileOpen && <div className="mobile-backdrop" onClick={() => setMobileOpen(false)} />}
-        </>,
-        document.body
-      )}
-    </aside>
+    </>
   )
 }
-
-export default Sidebar

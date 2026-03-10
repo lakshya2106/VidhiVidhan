@@ -82,13 +82,12 @@ export default function Hero() {
         </motion.button>
       </motion.div>
 
-      <motion.div
-        className={styles.heroScrollIndicator}
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className={styles.scrollDot}></div>
-      </motion.div>
+      <div className={styles.heroScrollIndicator}>
+        <div className={styles.scrollMouse}>
+          <div className={styles.scrollWheel} />
+        </div>
+        <span className={styles.scrollLabel}>Scroll</span>
+      </div>
     </section>
   );
 }

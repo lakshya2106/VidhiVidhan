@@ -42,10 +42,10 @@
 }
 
 .invoice-container {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.005));
   padding: 28px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow)
 }
 
@@ -95,7 +95,7 @@
   padding: 12px 14px;
   border-radius: 10px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   color: var(--text)
 }
 
@@ -131,8 +131,8 @@
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 20px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
-  border: 1px solid rgba(255, 255, 255, 0.03)
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.005));
+  border: 1px solid rgba(255, 255, 255, 0.08)
 }
 
 .items-table .table-header {
@@ -169,7 +169,7 @@
   padding: 10px 12px;
   border-radius: 8px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   color: var(--text)
 }
 
@@ -268,7 +268,7 @@ input.col-qty {
   flex-direction: column;
   padding: 12px;
   border-radius: 10px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.05));
   border: 1px solid rgba(255, 255, 255, 0.02)
 }
 
@@ -317,7 +317,7 @@ input.col-qty {
 
 .btn-reset {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   color: var(--muted)
 }
 
@@ -371,3 +371,11 @@ input.col-qty {
   .form-actions{gap:10px;margin-top:16px}
   .btn{padding:12px;font-size:13px}
 }
+/* Theme override — dim dark */
+.invoice-creator { background: transparent; }
+.invoice-section { background: var(--bg-3) !important; border: 1px solid var(--border) !important; }
+.invoice-creator input,
+.invoice-creator textarea,
+.invoice-creator select { background: var(--bg-5) !important; border: 1px solid var(--border) !important; color: var(--text) !important; }
+.invoice-creator input:focus,
+.invoice-creator select:focus { border-color: rgba(124,92,255,0.5) !important; box-shadow: 0 0 0 3px rgba(124,92,255,0.1) !important; outline: none; }

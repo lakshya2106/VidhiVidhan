@@ -23,10 +23,10 @@
 }
 
 .event-form-container {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.005));
   box-shadow: var(--shadow);
  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 25px;
   margin-bottom: 30px;
 }
@@ -53,7 +53,7 @@
 .event-form textarea,
 .event-form select {
   padding: 12px 14px;
-   border: 1px solid rgba(255, 255, 255, 0.04);
+   border: 1px solid rgba(255, 255, 255, 0.09);
   color: var(--text);
   border-radius: 8px;
   font-size: 14px;
@@ -94,7 +94,7 @@
 
 .event-card {
   border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(15, 23, 42, 0.95));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(15, 23, 42, 0.95));
   box-shadow: var(--shadow);
   border: 1px solid rgba(148, 163, 184, 0.2);
   overflow: hidden;
@@ -229,3 +229,13 @@
   .btn-action{padding:10px;font-size:12px;min-height:40px}
   .event-item{border-radius:8px}
 }
+
+/* Theme enhancements */
+.events-manager { background: transparent; }
+.event-form-container { background: var(--bg-3) !important; border: 1px solid var(--border) !important; }
+.event-form input,
+.event-form textarea,
+.event-form select { background: var(--bg-5) !important; border: 1px solid var(--border) !important; color: var(--text) !important; }
+.event-form input:focus,
+.event-form textarea:focus,
+.event-form select:focus { border-color: rgba(124,92,255,0.5) !important; box-shadow: 0 0 0 3px rgba(124,92,255,0.1) !important; outline: none; }

@@ -114,3 +114,10 @@
 .btn-edit{background:linear-gradient(90deg,var(--accent),#5a3bfe);border:none;color:white}
 .btn-delete{background:linear-gradient(90deg,#ff6b6b,#ff8a8a);border:none;color:white}
 .btn-action:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,0.5)}
+
+/* Theme override — dim dark */
+.invoice-list-page { background: transparent; }
+.invoices-table { background: var(--bg-3) !important; border: 1px solid var(--border) !important; }
+.invoices-table .table-header { background: transparent; border-bottom: 1px solid var(--border); color: var(--text-3) !important; }
+.invoices-table .table-row { color: var(--text-2); border-bottom: 1px solid var(--border); }
+.invoices-table .table-row:hover { background: var(--bg-4) !important; color: var(--text); }

@@ -1,77 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:wght@300&display=swap');
+
 .cta {
-  padding: 120px 10%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 215, 0, 0.01),
-    rgba(255, 215, 0, 0.02)
-  );
+  padding: 160px 10%;
   position: relative;
   overflow: hidden;
+  background: #0f1117;
+  cursor: default;
 }
 
-.ctaBlurTop {
+.ctaBg {
   position: absolute;
-  top: -50%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.25), transparent);
-  filter: blur(80px);
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255,215,0,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 80%, rgba(255,160,0,0.04) 0%, transparent 60%);
   pointer-events: none;
-  z-index: 0;
 }
 
-.ctaBlurBottom {
+.ctaLines {
   position: absolute;
-  bottom: -50%;
-  right: 0;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent);
-  filter: blur(60px);
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,215,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,215,0,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black, transparent);
   pointer-events: none;
-  z-index: 0;
+}
+
+.dynamicGlow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 65%);
+  pointer-events: none;
+  filter: blur(40px);
+  z-index: 1;
+}
+
+.spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ffd700;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #ffd700;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .ctaContent {
-  text-align: center;
   position: relative;
   z-index: 10;
-  max-width: 700px;
+  text-align: center;
+  max-width: 760px;
   margin: 0 auto;
 }
 
 .ctaBadge {
-  display: inline-block;
-  padding: 8px 16px;
-  background: rgba(255, 215, 0, 0.1);
-  border: 1px solid rgba(255, 215, 0, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  background: rgba(255,215,0,0.07);
+  border: 1px solid rgba(255,215,0,0.25);
   border-radius: 50px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   color: #ffd700;
-  margin-bottom: 30px;
+  margin-bottom: 36px;
+  backdrop-filter: blur(10px);
 }
 
 .ctaContent h2 {
-  font-size: 56px;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 30px;
-  background: linear-gradient(135deg, #fff, #ffd700);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 7vw, 80px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 28px;
+  color: #fff;
+}
+.ctaContent h2 em {
+  font-style: italic;
+  background: linear-gradient(135deg, #ffd700, #ffed4e, #ffa500);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .ctaContent p {
-  font-size: 18px;
-  color: #bbb;
-  line-height: 1.8;
-  margin-bottom: 50px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 300;
+  color: #777;
+  line-height: 1.9;
+  margin-bottom: 52px;
 }
 
 .ctaButtons {
@@ -79,50 +105,76 @@
   gap: 20px;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 48px;
 }
 
 .ctaPrimary {
-  padding: 16px 40px;
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  padding: 18px 52px;
+  background: linear-gradient(135deg, #ffd700, #ffa500);
   border: none;
   color: #000;
-  font-weight: 700;
-  font-size: 14px;
-  border-radius: 50px;
+  font-weight: 800;
+  font-size: 13px;
+  border-radius: 60px;
   cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.ctaPrimary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.ctaPrimary:hover::before { opacity: 1; }
+
+.ctaSecondary {
+  padding: 18px 52px;
+  background: transparent;
+  border: 1px solid rgba(255,215,0,0.3);
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 60px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+/* Trust row */
+.ctaTrust {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #555;
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
-
-.ctaSecondary {
-  padding: 16px 40px;
-  background: none;
-  border: 2px solid rgba(255, 215, 0, 0.5);
-  color: #ffd700;
-  font-weight: 700;
-  font-size: 14px;
-  border-radius: 50px;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+.trustDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255,215,0,0.4);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .cta {
-    padding: 80px 6%;
-  }
-
-  .ctaContent h2 {
-    font-size: 36px;
-  }
-
-  .ctaButtons {
-    flex-direction: column;
-  }
-
-  .ctaPrimary,
-  .ctaSecondary {
-    width: 100%;
-  }
+  .cta { padding: 100px 6%; }
+  .ctaButtons { flex-direction: column; align-items: center; }
+  .ctaPrimary, .ctaSecondary { width: 100%; max-width: 320px; }
+  .ctaTrust { gap: 16px; }
 }

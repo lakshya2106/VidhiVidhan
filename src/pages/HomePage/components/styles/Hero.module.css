@@ -107,38 +107,113 @@
 }
 
 .heroButton {
-  padding: 16px 40px;
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  border: none;
-  color: #000;
-  font-weight: 700;
-  font-size: 14px;
-  border-radius: 50px;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+  padding: 16px 40px !important;
+  background: linear-gradient(135deg, #ffd700, #ffed4e) !important;
+  border: none !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  border-radius: 50px !important;
+  cursor: pointer !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: 20px !important;
+  transform: none !important;
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3) !important;
+  transition: box-shadow 0.3s ease !important;
+  font-family: inherit !important;
 }
 
 .buttonArrow {
   font-size: 18px;
 }
 
+/* Scroll indicator — mouse-in-box style */
 .heroScrollIndicator {
   position: absolute;
-  bottom: 50px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.scrollDot {
-  width: 8px;
-  height: 32px;
-  border: 2px solid #ffd700;
-  border-radius: 10px;
+.scrollMouse {
+  width: 26px;
+  height: 42px;
+  border: 2px solid rgba(255, 215, 0, 0.7);
+  border-radius: 14px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.scrollWheel {
+  width: 4px;
+  height: 8px;
+  background: #ffd700;
+  border-radius: 2px;
+  animation: scrollWheel 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollWheel {
+  0%   { opacity: 1; transform: translateY(0); }
+  60%  { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 0; transform: translateY(12px); }
+}
+
+.scrollLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 215, 0, 0.5);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero {
+    margin-top: 60px;
+  }
+
+  .heroTitle {
+    font-size: 52px;
+  }
+
+  .heroDescription {
+    font-size: 16px;
+    padding: 0 10px;
+  }
+
+  .heroSubtext {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+  }
+
+  .heroButton {
+    padding: 14px 28px;
+    font-size: 13px;
+  }
+
+  .heroContent {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .heroTitle {
+    font-size: 38px;
+  }
+
+  .heroSubtitle {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
 }

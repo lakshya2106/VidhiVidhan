@@ -114,3 +114,25 @@
 }
 
 
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .contactContainer {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    padding: 80px 6%;
+  }
+
+  .contactLeft h2 {
+    font-size: 32px;
+  }
+
+  .contactLeft p {
+    margin-bottom: 30px;
+  }
+}

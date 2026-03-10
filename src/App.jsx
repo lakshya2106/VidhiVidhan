@@ -15,11 +15,13 @@
 
 import "./App.css"
 import { RouterProvider } from "react-router-dom"
+import ToastProvider from "./components/ToastProvider"
 import { AuthProvider } from "./auth/AuthContext"
 import Router from "./router/Router"
 function App(){
   return(
     <AuthProvider>
+
       <RouterProvider router={Router}/>
     </AuthProvider>
   )
