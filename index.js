@@ -33,6 +33,10 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }))
 app.use('/api/admin', adminRoutes)
 app.use('/api/invoices', invoiceRoutes)
 app.use('/api/events', eventRoutes)
+// just a simple route to check if the server is running
+app.get("/", (req, res) => {
+  res.send("Backend running");
+});
 
 async function start() {
   const connected = await connectDB(MONGODB_URI)
